@@ -28,5 +28,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             val intent = Intent(this@HomeActivity, ImagesActivity::class.java)
             startActivity(intent)
         }
+
+        binding.buttonVideos.setOnClickListener {
+            val intent = Intent(this@HomeActivity, VideosActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
