@@ -4,6 +4,9 @@ import android.content.pm.PackageManager
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.file.manager.R
+import com.file.manager.activities.video.models.ShortcutItem
 import com.file.manager.databinding.ActivityVideosBinding
 import com.file.manager.utils.Utils.storagePermission
 import com.module.core.base.BaseActivity
@@ -14,18 +17,30 @@ class VideosActivity : BaseActivity<ActivityVideosBinding>() {
     }
 
     // Khởi tạo launcher để yêu cầu quyền
-    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-        if (isGranted) {
-            // Quyền được cấp
-            Toast.makeText(this, "Quyền được cấp thành công!", Toast.LENGTH_SHORT).show()
-        } else {
-            // Quyền bị từ chối
-            Toast.makeText(this, "Quyền bị từ chối!", Toast.LENGTH_SHORT).show()
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                // Quyền được cấp
+                Toast.makeText(this, "Quyền được cấp thành công!", Toast.LENGTH_SHORT).show()
+            } else {
+                // Quyền bị từ chối
+                Toast.makeText(this, "Quyền bị từ chối!", Toast.LENGTH_SHORT).show()
+            }
         }
-    }
+
+    private val listShortcut = listOf(
+        ShortcutItem(textResId = R.string.open_local_video, iconResId = R.drawable.ic_file_open) {},
+        ShortcutItem(
+            textResId = R.string.open_network_stream, iconResId = R.drawable.ic_file_open
+        ) {},
+    )
 
     override fun initView() {
         requestStoragePermission(storagePermission)
+
+        binding.shortcutRecyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.shortcutRecyclerView.adapter = ShortcutAdapter(listShortcut)
     }
 
     override fun initData() {
@@ -44,7 +59,9 @@ class VideosActivity : BaseActivity<ActivityVideosBinding>() {
             }
             // Nếu cần giải thích lý do yêu cầu quyền (người dùng đã từ chối trước đó)
             shouldShowRequestPermissionRationale(permission) -> {
-                Toast.makeText(this, "Ứng dụng cần quyền này để truy cập bộ nhớ!", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this, "Ứng dụng cần quyền này để truy cập bộ nhớ!", Toast.LENGTH_LONG
+                ).show()
                 // Sau khi giải thích, yêu cầu lại quyền
                 requestPermissionLauncher.launch(permission)
             }
