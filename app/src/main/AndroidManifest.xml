@@ -32,7 +32,7 @@
             android:name=".MusicActivity"
             android:exported="false" />
         <activity
-            android:name=".VideosActivity"
+            android:name=".activities.video.VideosActivity"
             android:exported="false" />
         <activity
             android:name=".ImagesActivity"
