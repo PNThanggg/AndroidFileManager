@@ -67,8 +67,6 @@ class VideosActivity : BaseActivity<ActivityVideosBinding>() {
         when {
             // Kiểm tra xem quyền đã được cấp chưa
             checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED -> {
-                Toast.makeText(this, "Quyền đã được cấp!", Toast.LENGTH_SHORT).show()
-
                 binding.permissionNotGrantedLayout.visibility = View.GONE
             }
             // Nếu cần giải thích lý do yêu cầu quyền (người dùng đã từ chối trước đó)
