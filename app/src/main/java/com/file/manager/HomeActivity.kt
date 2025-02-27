@@ -2,6 +2,7 @@ package com.file.manager
 
 import android.content.Intent
 import android.view.LayoutInflater
+import com.file.manager.activities.video.VideosActivity
 import com.file.manager.databinding.ActivityHomeBinding
 import com.module.core.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
