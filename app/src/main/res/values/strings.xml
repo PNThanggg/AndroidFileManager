@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">File Manager</string>
+    <string name="manage_your_files_in_a_simple_way">Manage your files in a simple way</string>
+    <string name="intro_sub_text">You could integrate your local files with the files in cloud storage</string>
 </resources>
