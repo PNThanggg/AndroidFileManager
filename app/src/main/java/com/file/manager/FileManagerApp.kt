@@ -4,12 +4,25 @@ import android.content.Context
 import android.util.Log
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
+import com.module.core.di.ApplicationScope
+import com.modules.core.datastore.repository.PreferencesRepository
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 
 @HiltAndroidApp
 class FileManagerApp : MultiDexApplication() {
+    @Inject
+    lateinit var preferencesRepository: PreferencesRepository
+
+    @Inject
+    @ApplicationScope
+    lateinit var applicationScope: CoroutineScope
+
     companion object {
         private const val TAG = "FileManagerApp"
 
@@ -29,6 +42,10 @@ class FileManagerApp : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
+
+        applicationScope.launch {
+            preferencesRepository.applicationPreferences.first()
+        }
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
