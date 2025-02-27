@@ -43,6 +43,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
 
+    implementation(libs.androidx.recyclerview)
+
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
