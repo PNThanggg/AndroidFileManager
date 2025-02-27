@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,10 +25,11 @@ class VideosActivity : BaseActivity<ActivityVideosBinding>() {
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 // Quyền được cấp
-                Toast.makeText(this, "Quyền được cấp thành công!", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "Quyền được cấp thành công!", Toast.LENGTH_SHORT).show()
             } else {
                 // Quyền bị từ chối
-                Toast.makeText(this, "Quyền bị từ chối!", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "Quyền bị từ chối!", Toast.LENGTH_SHORT).show()
+                binding.permissionNotGrantedLayout.visibility = View.VISIBLE
             }
         }
 
@@ -44,6 +46,8 @@ class VideosActivity : BaseActivity<ActivityVideosBinding>() {
         binding.shortcutRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.shortcutRecyclerView.adapter = ShortcutAdapter(listShortcut)
+
+        binding.permissionNotGrantedSub.text = getString(R.string.permission_info, storagePermission)
     }
 
     override fun initData() {
@@ -64,6 +68,8 @@ class VideosActivity : BaseActivity<ActivityVideosBinding>() {
             // Kiểm tra xem quyền đã được cấp chưa
             checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED -> {
                 Toast.makeText(this, "Quyền đã được cấp!", Toast.LENGTH_SHORT).show()
+
+                binding.permissionNotGrantedLayout.visibility = View.GONE
             }
             // Nếu cần giải thích lý do yêu cầu quyền (người dùng đã từ chối trước đó)
             shouldShowRequestPermissionRationale(permission) -> {
