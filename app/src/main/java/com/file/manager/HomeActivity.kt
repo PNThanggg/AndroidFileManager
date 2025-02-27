@@ -33,5 +33,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             val intent = Intent(this@HomeActivity, VideosActivity::class.java)
             startActivity(intent)
         }
+
+        binding.buttonMusic.setOnClickListener {
+            val intent = Intent(this@HomeActivity, MusicActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
