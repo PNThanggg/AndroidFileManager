@@ -9,4 +9,8 @@
     <string name="txt_music">Music</string>
     <string name="open_local_video">Open local video</string>
     <string name="open_network_stream">Open network stream</string>
+
+    <string name="permission_info">The Next Player app needs \"%1$s\" permission to access and play media. Without it, media access and playback won\'t work. To use the app fully, grant the permission.</string>
+    <string name="permission_not_granted">Permission Not Granted</string>
+    <string name="open_settings">Open Settings</string>
 </resources>
