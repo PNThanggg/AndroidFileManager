@@ -103,20 +103,20 @@
 
     <style name="TextViewFontRegular">
         <item name="android:textStyle">normal</item>
-        <item name="android:fontFamily">@font/poppins_medium_500</item>
-        <item name="fontFamily">@font/poppins_medium_500</item>
+        <item name="android:fontFamily">@font/space_grotesk_regular</item>
+        <item name="fontFamily">@font/space_grotesk_regular</item>
     </style>
 
     <style name="TextViewFontMedium">
         <item name="android:textStyle">normal</item>
-        <item name="android:fontFamily">@font/poppins_medium_500</item>
-        <item name="fontFamily">@font/poppins_medium_500</item>
+        <item name="android:fontFamily">@font/space_grotesk_medium</item>
+        <item name="fontFamily">@font/space_grotesk_medium</item>
     </style>
 
     <style name="TextViewFontSemiBold">
         <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">@font/poppins_semi_bold_600</item>
-        <item name="fontFamily">@font/poppins_semi_bold_600</item>
+        <item name="android:fontFamily">@font/space_grotesk_semibold</item>
+        <item name="fontFamily">@font/space_grotesk_semibold</item>
     </style>
 
     <style name="FontBold">
