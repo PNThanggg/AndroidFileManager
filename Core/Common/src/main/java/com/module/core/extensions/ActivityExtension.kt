@@ -1,9 +1,15 @@
-package com.module.core.common.extensions
+package com.module.core.extensions
 
 import android.app.Activity
+import android.app.Activity.OVERRIDE_TRANSITION_CLOSE
+import android.graphics.Color
 import android.util.DisplayMetrics
 import android.view.WindowInsets
-import com.module.core.common.utils.isSdkR
+import androidx.activity.ComponentActivity
+import androidx.activity.OnBackPressedCallback
+import com.module.core.common.R
+import com.module.core.utils.isSdk34
+import com.module.core.utils.isSdkR
 
 fun Activity.getScreenWidth(): Int {
     return if (isSdkR()) {
@@ -29,4 +35,37 @@ fun Activity.getScreenHeight(): Int {
         @Suppress("DEPRECATION") windowManager.defaultDisplay.getMetrics(displayMetrics)
         displayMetrics.heightPixels
     }
+}
+
+/**
+ * call when finish activity to apply animation
+ *
+ * */
+fun Activity.finishWithSlide() {
+    finish()
+    if (isSdk34()) {
+        overrideActivityTransition(
+            OVERRIDE_TRANSITION_CLOSE,
+            R.anim.slide_in_left,
+            R.anim.slide_out_right,
+            Color.TRANSPARENT
+        )
+    } else {
+        @Suppress("DEPRECATION")
+        overridePendingTransition(
+            R.anim.slide_in_left,
+            R.anim.slide_out_right,
+        )
+    }
+}
+
+fun ComponentActivity.handleBackPressed(action: () -> Unit) {
+    onBackPressedDispatcher.addCallback(
+        this,
+        object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                action()
+            }
+        },
+    )
 }

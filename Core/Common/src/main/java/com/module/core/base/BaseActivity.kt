@@ -1,4 +1,4 @@
-package com.module.core.common.base
+package com.module.core.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
+import com.module.core.extensions.finishWithSlide
+import com.module.core.extensions.getScreenHeight
+import com.module.core.extensions.getScreenWidth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -19,7 +22,6 @@ import kotlin.coroutines.CoroutineContext
 abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     //region variable
     companion object {
-        const val TAG = Constants.TAG
         const val TIME_DELAY_CLICK = 200L
     }
 

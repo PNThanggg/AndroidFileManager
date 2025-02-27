@@ -1,4 +1,4 @@
-package com.module.core.common.utils
+package com.module.core.utils
 
 import android.os.Build
 

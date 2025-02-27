@@ -1,7 +1,7 @@
-package com.module.core.common.di
+package com.module.core.di
 
 import javax.inject.Qualifier
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
-annotation class DefaultDispatcher
+annotation class ApplicationScope

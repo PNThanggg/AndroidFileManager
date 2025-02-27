@@ -1,4 +1,4 @@
-package com.module.core.common.di
+package com.module.core.di
 
 import dagger.Module
 import dagger.Provides
