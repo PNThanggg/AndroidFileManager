@@ -13,6 +13,7 @@ import androidx.viewbinding.ViewBinding
 import com.module.core.extensions.finishWithSlide
 import com.module.core.extensions.getScreenHeight
 import com.module.core.extensions.getScreenWidth
+import com.module.core.extensions.handleBackPressed
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
