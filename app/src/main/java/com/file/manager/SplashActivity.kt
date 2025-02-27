@@ -41,5 +41,4 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
 
     override fun initListener() {
     }
-
 }
