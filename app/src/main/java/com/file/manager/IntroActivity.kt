@@ -23,7 +23,7 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
         binding.buttonNext.setOnClickListener {
             startActivity(
                 Intent(
-                    this@IntroActivity, MainActivity::class.java
+                    this@IntroActivity, HomeActivity::class.java
                 )
             )
 

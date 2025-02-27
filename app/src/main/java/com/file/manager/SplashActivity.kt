@@ -27,7 +27,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
                 } else {
                     startActivity(
                         Intent(
-                            this@SplashActivity, MainActivity::class.java
+                            this@SplashActivity, HomeActivity::class.java
                         )
                     )
                 }
