@@ -7,4 +7,6 @@
     <string name="txt_images">Images</string>
     <string name="txt_videos">Videos</string>
     <string name="txt_music">Music</string>
+    <string name="open_local_video">Open local video</string>
+    <string name="open_network_stream">Open network stream</string>
 </resources>
