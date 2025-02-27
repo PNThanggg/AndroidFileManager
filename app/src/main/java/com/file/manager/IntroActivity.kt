@@ -27,13 +27,13 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
                 )
             )
 
-            finish()
-
             lifecycleScope.launch {
                 preferencesRepository.updateApplicationPreferences { prefs ->
                     prefs.copy(firstLaunch = false)
                 }
             }
+
+            finish()
         }
     }
 
