@@ -14,6 +14,11 @@ recyclerview = "1.4.0"
 ksp = "2.1.10-1.0.30"
 dragger-hilt = "2.54"
 
+timber = "5.0.1"
+androidx-data-store = "1.1.2"
+
+kotlinx-serialization-json = "1.7.3"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -25,12 +30,19 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 
+androidx-datastore-core = { group = "androidx.datastore", name = "datastore", version.ref = "androidx-data-store" }
+
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "dragger-hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "dragger-hilt" }
+
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
+
+timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "dragger-hilt" }
