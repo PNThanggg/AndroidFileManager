@@ -15,7 +15,7 @@
         android:id="@+id/shortcut_icon"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:contentDescription="@null"
+        android:contentDescription="@string/app_name"
         android:tint="#FF585E71"
         tools:src="@drawable/ic_file_open" />
 
