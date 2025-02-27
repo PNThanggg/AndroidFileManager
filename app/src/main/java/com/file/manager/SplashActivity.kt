@@ -22,8 +22,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>() {
     override fun initView() {
         lifecycleScope.launch {
             preferencesRepository.applicationPreferences.collect { prefs ->
-//                delay(1500)
-
                 if (prefs.firstLaunch) {
                     startActivity(Intent(this@SplashActivity, IntroActivity::class.java))
                 } else {
