@@ -1,6 +1,9 @@
 package com.file.manager.activities.video
 
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -48,7 +51,12 @@ class VideosActivity : BaseActivity<ActivityVideosBinding>() {
     }
 
     override fun initListener() {
-
+        binding.buttonOpenSetting.setOnClickListener {
+            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                data = Uri.parse("package:$packageName")
+                startActivity(this)
+            }
+        }
     }
 
     private fun requestStoragePermission(permission: String) {
