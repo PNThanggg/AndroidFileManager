@@ -164,16 +164,26 @@ class PlayerActivity : AppCompatActivity() {
     /**
      * Player controller views
      */
-    private lateinit var audioTrackButton: ImageButton
-    private lateinit var backButton: ImageButton
-    private lateinit var exoContentFrameLayout: AspectRatioFrameLayout
+    private val audioTrackButton: ImageButton by lazy {
+        binding.playerView.findViewById(R.id.btn_audio_track)
+    }
+    private val backButton: ImageButton by lazy {
+        binding.playerView.findViewById(R.id.back_button)
+    }
+    private val exoContentFrameLayout: AspectRatioFrameLayout by lazy {
+        binding.playerView.findViewById(R.id.exo_content_frame)
+    }
     private lateinit var lockControlsButton: ImageButton
     private lateinit var playbackSpeedButton: ImageButton
     private lateinit var playerLockControls: FrameLayout
     private lateinit var playerUnlockControls: FrameLayout
     private lateinit var playerCenterControls: LinearLayout
-    private lateinit var screenRotateButton: ImageButton
-    private lateinit var pipButton: ImageButton
+    private val screenRotateButton: ImageButton by lazy {
+        binding.playerView.findViewById(R.id.screen_rotate)
+    }
+    private val pipButton: ImageButton by lazy {
+        binding.playerView.findViewById(R.id.btn_pip)
+    }
     private lateinit var seekBar: TimeBar
     private lateinit var subtitleTrackButton: ImageButton
     private lateinit var unlockControlsButton: ImageButton
@@ -208,16 +218,11 @@ class PlayerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Initializing views
-        audioTrackButton = binding.playerView.findViewById(R.id.btn_audio_track)
-        backButton = binding.playerView.findViewById(R.id.back_button)
-        exoContentFrameLayout = binding.playerView.findViewById(R.id.exo_content_frame)
         lockControlsButton = binding.playerView.findViewById(R.id.btn_lock_controls)
         playbackSpeedButton = binding.playerView.findViewById(R.id.btn_playback_speed)
         playerLockControls = binding.playerView.findViewById(R.id.player_lock_controls)
         playerUnlockControls = binding.playerView.findViewById(R.id.player_unlock_controls)
         playerCenterControls = binding.playerView.findViewById(R.id.player_center_controls)
-        screenRotateButton = binding.playerView.findViewById(R.id.screen_rotate)
-        pipButton = binding.playerView.findViewById(R.id.btn_pip)
         seekBar = binding.playerView.findViewById(R.id.exo_progress)
         subtitleTrackButton = binding.playerView.findViewById(R.id.btn_subtitle_track)
         unlockControlsButton = binding.playerView.findViewById(R.id.btn_unlock_controls)

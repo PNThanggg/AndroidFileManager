@@ -7,6 +7,7 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.file.manager.R
 import com.file.manager.activities.video.dialog.PermissionRationaleVideoDialog
@@ -14,9 +15,11 @@ import com.file.manager.activities.video.models.ShortcutItem
 import com.file.manager.databinding.ActivityVideosBinding
 import com.file.manager.utils.Utils.storagePermission
 import com.module.core.base.BaseActivity
+import com.modules.feature.player.PlayerActivity
 import timber.log.Timber
 
 
+@UnstableApi
 class VideosActivity : BaseActivity<ActivityVideosBinding>() {
     override fun inflateViewBinding(inflater: LayoutInflater): ActivityVideosBinding {
         return ActivityVideosBinding.inflate(inflater)
@@ -44,6 +47,9 @@ class VideosActivity : BaseActivity<ActivityVideosBinding>() {
             uri?.let {
                 // Xử lý URI của tệp video được chọn
                 Timber.tag(TAG).d("Uri path: ${it.path}")
+
+                val intent = Intent(Intent.ACTION_VIEW, uri, this, PlayerActivity::class.java)
+                startActivity(intent)
             }
         }
 

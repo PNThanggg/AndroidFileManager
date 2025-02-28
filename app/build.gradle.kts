@@ -53,12 +53,16 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
+    implementation(libs.androidx.media3.common)
+
     implementation(libs.androidx.multidex)
     implementation(libs.timber)
 
     implementation(project(":Core:Common"))
     implementation(project(":Core:Datastore"))
     implementation(project(":Core:Model"))
+
+    implementation(project(":Features:Player"))
 
     testImplementation(libs.junit)
 
