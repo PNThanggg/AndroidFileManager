@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.AppOpsManager
 import android.content.Context
 import android.content.pm.PackageManager
+import android.media.AudioManager
 import android.os.Build
 import android.os.Process
 import android.provider.Settings
@@ -62,4 +63,9 @@ val Activity.isPipEnabled: Boolean
         } else {
             false
         }
+    }
+
+val Activity.audioManager: AudioManager
+    get() {
+        return getSystemService(Context.AUDIO_SERVICE) as AudioManager
     }
