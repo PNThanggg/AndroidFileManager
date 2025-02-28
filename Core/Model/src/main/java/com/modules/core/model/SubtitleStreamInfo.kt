@@ -1,0 +1,12 @@
+package com.modules.core.model
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class SubtitleStreamInfo(
+    val index: Int,
+    val title: String?,
+    val codecName: String,
+    val language: String?,
+    val disposition: Int,
+)

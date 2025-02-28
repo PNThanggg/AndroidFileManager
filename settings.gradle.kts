@@ -22,4 +22,5 @@ dependencyResolutionManagement {
 rootProject.name = "File Manager"
 include(":app")
 include(":Core:Common")
+include(":Core:Model")
 include(":Core:Datastore")
