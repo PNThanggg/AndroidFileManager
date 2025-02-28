@@ -32,6 +32,8 @@ import com.module.core.extensions.getFilenameFromUri
 import com.module.core.extensions.getLocalSubtitles
 import com.module.core.extensions.getPath
 import com.module.core.extensions.subtitleCacheDir
+import com.modules.core.data.models.VideoState
+import com.modules.core.data.repository.MediaRepository
 import com.modules.core.datastore.models.PlayerPreferences
 import com.modules.core.datastore.repository.PlayerPreferencesRepository
 import com.modules.core.model.DecoderPriority

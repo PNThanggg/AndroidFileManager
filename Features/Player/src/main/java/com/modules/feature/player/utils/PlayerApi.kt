@@ -2,11 +2,14 @@ package com.modules.feature.player.utils
 
 import android.content.Intent
 import android.net.Uri
+import androidx.annotation.OptIn
 import androidx.media3.common.C
+import androidx.media3.common.util.UnstableApi
 import com.modules.feature.player.PlayerActivity
 import com.modules.feature.player.extensions.getParcelableUriArray
 import com.modules.feature.player.model.Subtitle
 
+@OptIn(UnstableApi::class)
 class PlayerApi(
     activity: PlayerActivity
 ) {

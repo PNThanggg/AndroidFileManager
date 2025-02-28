@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.modules.feature.player"
+    namespace = "com.modules.core.domain"
     compileSdk = 35
 
     defaultConfig {
@@ -32,48 +32,20 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-
-    buildFeatures {
-        viewBinding = true
-    }
 }
 
 dependencies {
-    implementation(project(":Core:Model"))
-    implementation(project(":Core:Common"))
-    implementation(project(":Core:Datastore"))
+
     implementation(project(":Core:Data"))
-    implementation(project(":Core:Domain"))
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.activity.ktx)
-    implementation(libs.material)
-    implementation(libs.androidx.constraintlayout)
-
-    // Media3
-    implementation(libs.androidx.media3.common)
-    implementation(libs.androidx.media3.exoplayer)
-    implementation(libs.androidx.media3.exoplayer.dash)
-    implementation(libs.androidx.media3.exoplayer.hls)
-    implementation(libs.androidx.media3.exoplayer.rtsp)
-    implementation(libs.androidx.media3.ui)
-    implementation(libs.androidx.media3.session)
-
-    implementation(libs.lifecycle.runtime)
-    implementation(libs.lifecycle.viewModel)
-
-//    implementation(libs.github.anilbeesetti.nextlib.media3ext)
-//    implementation(libs.github.anilbeesetti.nextlib.mediainfo)
+    implementation(project(":Core:Common"))
+    implementation(project(":Core:Model"))
+    implementation(project(":Core:Datastore"))
 
     implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.coroutines.guava)
 
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-
-    implementation(libs.timber)
 
     testImplementation(libs.junit)
 

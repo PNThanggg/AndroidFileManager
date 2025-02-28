@@ -3,6 +3,8 @@ package com.modules.feature.player
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.modules.core.data.models.VideoState
+import com.modules.core.data.repository.MediaRepository
 import com.modules.core.datastore.repository.LocalPreferencesRepository
 import com.modules.core.datastore.repository.PlayerPreferencesRepository
 import com.modules.core.model.Video
