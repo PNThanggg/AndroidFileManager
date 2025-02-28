@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.modules.core.datastore.repository.LocalPreferencesRepository
 import com.modules.core.datastore.repository.PlayerPreferencesRepository
 import com.modules.core.model.Video
-import com.modules.core.model.VideoState
 import com.modules.core.model.VideoZoom
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted

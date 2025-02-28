@@ -1,4 +1,4 @@
-package com.modules.core.model
+package com.modules.core.data.models
 
 import android.net.Uri
 

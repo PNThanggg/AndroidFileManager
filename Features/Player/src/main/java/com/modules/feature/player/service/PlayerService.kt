@@ -36,7 +36,6 @@ import com.modules.core.datastore.models.PlayerPreferences
 import com.modules.core.datastore.repository.PlayerPreferencesRepository
 import com.modules.core.model.DecoderPriority
 import com.modules.core.model.Resume
-import com.modules.core.model.VideoState
 import com.modules.feature.player.PlayerActivity
 import com.modules.feature.player.R
 import com.modules.feature.player.extensions.addAdditionalSubtitleConfiguration
