@@ -6,10 +6,10 @@ import android.net.Uri
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.file.manager.R
+import com.file.manager.activities.video.dialog.PermissionRationaleVideoDialog
 import com.file.manager.activities.video.models.ShortcutItem
 import com.file.manager.databinding.ActivityVideosBinding
 import com.file.manager.utils.Utils.storagePermission
@@ -24,6 +24,10 @@ class VideosActivity : BaseActivity<ActivityVideosBinding>() {
 
     companion object {
         private const val TAG = "VideosActivity"
+    }
+
+    private val permissionRationaleVideoDialog by lazy {
+        PermissionRationaleVideoDialog(this@VideosActivity)
     }
 
     // Khởi tạo launcher để yêu cầu quyền
@@ -56,9 +60,13 @@ class VideosActivity : BaseActivity<ActivityVideosBinding>() {
         ) {},
     )
 
-    override fun initView() {
-        requestStoragePermission(storagePermission)
+    override fun onResume() {
+        super.onResume()
 
+        requestStoragePermission(storagePermission)
+    }
+
+    override fun initView() {
         binding.shortcutRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.shortcutRecyclerView.adapter = ShortcutAdapter(listShortcut)
@@ -82,19 +90,14 @@ class VideosActivity : BaseActivity<ActivityVideosBinding>() {
 
     private fun requestStoragePermission(permission: String) {
         when {
-            // Kiểm tra xem quyền đã được cấp chưa
             checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED -> {
                 binding.permissionNotGrantedLayout.visibility = View.GONE
             }
-            // Nếu cần giải thích lý do yêu cầu quyền (người dùng đã từ chối trước đó)
             shouldShowRequestPermissionRationale(permission) -> {
-                Toast.makeText(
-                    this, "Ứng dụng cần quyền này để truy cập bộ nhớ!", Toast.LENGTH_LONG
-                ).show()
-                // Sau khi giải thích, yêu cầu lại quyền
-                requestPermissionLauncher.launch(permission)
+                permissionRationaleVideoDialog.show {
+                    requestPermissionLauncher.launch(permission)
+                }
             }
-            // Yêu cầu quyền lần đầu
             else -> {
                 requestPermissionLauncher.launch(permission)
             }
