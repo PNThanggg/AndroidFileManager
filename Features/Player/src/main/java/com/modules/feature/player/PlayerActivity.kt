@@ -2,7 +2,6 @@ package com.modules.feature.player
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.AppOpsManager
 import android.app.PendingIntent
 import android.app.PictureInPictureParams
 import android.app.RemoteAction
@@ -12,7 +11,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.ActivityInfo
-import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Rect
 import android.graphics.drawable.Icon
@@ -21,7 +19,6 @@ import android.media.audiofx.LoudnessEnhancer
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Process
 import android.util.Rational
 import android.util.TypedValue
 import android.view.Gravity
@@ -75,6 +72,8 @@ import com.modules.feature.player.dialogs.PlaybackSpeedControlsDialogFragment
 import com.modules.feature.player.dialogs.TrackSelectionDialogFragment
 import com.modules.feature.player.dialogs.VideoZoomOptionsDialogFragment
 import com.modules.feature.player.dialogs.nameRes
+import com.modules.feature.player.extensions.isPipEnabled
+import com.modules.feature.player.extensions.isPipSupported
 import com.modules.feature.player.extensions.isPortrait
 import com.modules.feature.player.extensions.next
 import com.modules.feature.player.extensions.seekBack
@@ -182,31 +181,6 @@ class PlayerActivity : AppCompatActivity() {
     private lateinit var videoZoomButton: ImageButton
     private lateinit var playInBackgroundButton: ImageButton
     private lateinit var extraControls: LinearLayout
-
-    private val isPipSupported: Boolean by lazy {
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && packageManager.hasSystemFeature(
-            PackageManager.FEATURE_PICTURE_IN_PICTURE
-        )
-    }
-
-    private val isPipEnabled: Boolean
-        get() {
-            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val appOps = getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager?
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    appOps?.unsafeCheckOpNoThrow(
-                        AppOpsManager.OPSTR_PICTURE_IN_PICTURE, Process.myUid(), packageName
-                    ) == AppOpsManager.MODE_ALLOWED
-                } else {
-                    @Suppress("DEPRECATION")
-                    appOps?.checkOpNoThrow(
-                        AppOpsManager.OPSTR_PICTURE_IN_PICTURE, Process.myUid(), packageName
-                    ) == AppOpsManager.MODE_ALLOWED
-                }
-            } else {
-                false
-            }
-        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

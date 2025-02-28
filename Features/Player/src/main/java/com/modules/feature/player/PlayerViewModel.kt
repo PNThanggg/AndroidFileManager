@@ -7,6 +7,7 @@ import com.modules.core.data.models.VideoState
 import com.modules.core.data.repository.MediaRepository
 import com.modules.core.datastore.repository.LocalPreferencesRepository
 import com.modules.core.datastore.repository.PlayerPreferencesRepository
+import com.modules.core.domain.GetSortedPlaylistUseCase
 import com.modules.core.model.Video
 import com.modules.core.model.VideoZoom
 import dagger.hilt.android.lifecycle.HiltViewModel
