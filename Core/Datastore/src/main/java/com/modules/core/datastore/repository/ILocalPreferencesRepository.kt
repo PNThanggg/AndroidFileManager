@@ -3,7 +3,7 @@ package com.modules.core.datastore.repository
 import com.modules.core.datastore.models.ApplicationPreferences
 import kotlinx.coroutines.flow.Flow
 
-interface PreferencesRepository {
+interface ILocalPreferencesRepository {
 
     /**
      * Stream of [ApplicationPreferences].

@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class LocalPreferencesRepository @Inject constructor(
     private val appPreferencesDataSource: AppPreferencesDataSource,
-) : PreferencesRepository {
+) : ILocalPreferencesRepository {
     override val applicationPreferences: Flow<ApplicationPreferences>
         get() = appPreferencesDataSource.preferences
 
