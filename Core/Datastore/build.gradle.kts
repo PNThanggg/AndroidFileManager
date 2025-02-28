@@ -37,6 +37,7 @@ android {
 
 dependencies {
     implementation(project(":Core:Common"))
+    implementation(project(":Core:Model"))
 
     implementation(libs.androidx.datastore.core)
     implementation(libs.kotlinx.serialization.json)
