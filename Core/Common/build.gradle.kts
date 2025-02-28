@@ -45,6 +45,8 @@ dependencies {
 
     implementation(libs.androidx.recyclerview)
 
+    implementation(libs.github.albfernandez.juniversalchardet)
+
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
