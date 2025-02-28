@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
 import com.module.core.di.ApplicationScope
-import com.modules.core.datastore.repository.PreferencesRepository
+import com.modules.core.datastore.repository.LocalPreferencesRepository
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltAndroidApp
 class FileManagerApp : MultiDexApplication() {
     @Inject
-    lateinit var preferencesRepository: PreferencesRepository
+    lateinit var preferencesRepository: LocalPreferencesRepository
 
     @Inject
     @ApplicationScope

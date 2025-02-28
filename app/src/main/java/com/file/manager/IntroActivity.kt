@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import androidx.lifecycle.lifecycleScope
 import com.file.manager.databinding.ActivityIntroBinding
 import com.module.core.base.BaseActivity
-import com.modules.core.datastore.repository.PreferencesRepository
+import com.modules.core.datastore.repository.LocalPreferencesRepository
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,7 +17,7 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>() {
     }
 
     @Inject
-    lateinit var preferencesRepository: PreferencesRepository
+    lateinit var preferencesRepository: LocalPreferencesRepository
 
     override fun initView() {
         binding.buttonNext.setOnClickListener {

@@ -63,8 +63,8 @@ dependencies {
     implementation(libs.lifecycle.runtime)
     implementation(libs.lifecycle.viewModel)
 
-//    implementation(libs.github.anilbeesetti.nextlib.media3ext)
-//    implementation(libs.github.anilbeesetti.nextlib.mediainfo)
+    implementation(libs.github.anilbeesetti.nextlib.media3ext)
+    implementation(libs.github.anilbeesetti.nextlib.mediainfo)
 
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.guava)
