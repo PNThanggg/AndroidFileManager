@@ -34,5 +34,16 @@ data class Folder(
             dateModified = 2000,
             formattedMediaSize = "1KB",
         )
+
+        val sampleHaveData = Folder(
+            name = "Folder 1",
+            path = "/storage/emulated/0/DCIM/Camera/Live Photos",
+            dateModified = 2000,
+            formattedMediaSize = "1KB",
+            mediaList = listOf(
+                Video.sample,
+                Video.sample,
+            )
+        )
     }
 }
