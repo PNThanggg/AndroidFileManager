@@ -1,4 +1,4 @@
-package com.file.manager.activities.video
+package com.file.manager.activities.video.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
