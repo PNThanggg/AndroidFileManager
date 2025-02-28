@@ -7,23 +7,32 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.file.manager.R
+import com.file.manager.activities.video.adapter.FolderAdapter
+import com.file.manager.activities.video.adapter.ShortcutAdapter
 import com.file.manager.activities.video.dialog.PermissionRationaleVideoDialog
 import com.file.manager.activities.video.models.ShortcutItem
 import com.file.manager.databinding.ActivityVideosBinding
 import com.file.manager.utils.Utils.storagePermission
 import com.module.core.base.BaseActivity
+import com.modules.core.model.Folder
 import com.modules.feature.player.PlayerActivity
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 
 @UnstableApi
+@AndroidEntryPoint
 class VideosActivity : BaseActivity<ActivityVideosBinding>() {
     override fun inflateViewBinding(inflater: LayoutInflater): ActivityVideosBinding {
         return ActivityVideosBinding.inflate(inflater)
     }
+
+    private val viewModel: VideosViewModel by viewModels()
+    private val applicationPreferences get() = viewModel.preferences.value
 
     companion object {
         private const val TAG = "VideosActivity"
@@ -73,6 +82,16 @@ class VideosActivity : BaseActivity<ActivityVideosBinding>() {
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.shortcutRecyclerView.adapter = ShortcutAdapter(listShortcut)
 
+        binding.folderRecyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.folderRecyclerView.adapter = FolderAdapter(
+            context = this@VideosActivity, preferences = applicationPreferences, folders = listOf(
+                Folder.rootFolder,
+                Folder.sample,
+                Folder.sampleHaveData,
+            )
+        )
+
         binding.permissionNotGrantedSub.text =
             getString(R.string.permission_info, storagePermission)
     }
@@ -95,11 +114,13 @@ class VideosActivity : BaseActivity<ActivityVideosBinding>() {
             checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED -> {
                 binding.permissionNotGrantedLayout.visibility = View.GONE
             }
+
             shouldShowRequestPermissionRationale(permission) -> {
                 permissionRationaleVideoDialog.show {
                     requestPermissionLauncher.launch(permission)
                 }
             }
+
             else -> {
                 requestPermissionLauncher.launch(permission)
             }
