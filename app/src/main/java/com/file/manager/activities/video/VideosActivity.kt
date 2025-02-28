@@ -30,12 +30,12 @@ class VideosActivity : BaseActivity<ActivityVideosBinding>() {
         PermissionRationaleVideoDialog(this@VideosActivity)
     }
 
-    // Khởi tạo launcher để yêu cầu quyền
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 // Quyền được cấp
 //                Toast.makeText(this, "Quyền được cấp thành công!", Toast.LENGTH_SHORT).show()
+                binding.permissionNotGrantedLayout.visibility = View.GONE
             } else {
                 // Quyền bị từ chối
 //                Toast.makeText(this, "Quyền bị từ chối!", Toast.LENGTH_SHORT).show()
