@@ -14,7 +14,6 @@ import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.Rect
 import android.graphics.drawable.Icon
-import android.media.AudioManager
 import android.media.audiofx.LoudnessEnhancer
 import android.net.Uri
 import android.os.Build
@@ -72,6 +71,7 @@ import com.modules.feature.player.dialogs.PlaybackSpeedControlsDialogFragment
 import com.modules.feature.player.dialogs.TrackSelectionDialogFragment
 import com.modules.feature.player.dialogs.VideoZoomOptionsDialogFragment
 import com.modules.feature.player.dialogs.nameRes
+import com.modules.feature.player.extensions.audioManager
 import com.modules.feature.player.extensions.isPipEnabled
 import com.modules.feature.player.extensions.isPipSupported
 import com.modules.feature.player.extensions.isPortrait
@@ -140,9 +140,15 @@ class PlayerActivity : AppCompatActivity() {
     private var controllerFuture: ListenableFuture<MediaController>? = null
     private var mediaController: MediaController? = null
     private lateinit var playerGestureHelper: PlayerGestureHelper
-    private lateinit var playerApi: PlayerApi
-    private lateinit var volumeManager: VolumeManager
-    private lateinit var brightnessManager: BrightnessManager
+    private val playerApi: PlayerApi by lazy {
+        PlayerApi(this@PlayerActivity)
+    }
+    private val volumeManager: VolumeManager by lazy {
+        VolumeManager(audioManager = audioManager)
+    }
+    private val brightnessManager: BrightnessManager by lazy {
+        BrightnessManager(activity = this@PlayerActivity)
+    }
     private var pipBroadcastReceiver: BroadcastReceiver? = null
 
     /**
@@ -173,24 +179,48 @@ class PlayerActivity : AppCompatActivity() {
     private val exoContentFrameLayout: AspectRatioFrameLayout by lazy {
         binding.playerView.findViewById(R.id.exo_content_frame)
     }
-    private lateinit var lockControlsButton: ImageButton
-    private lateinit var playbackSpeedButton: ImageButton
-    private lateinit var playerLockControls: FrameLayout
-    private lateinit var playerUnlockControls: FrameLayout
-    private lateinit var playerCenterControls: LinearLayout
+    private val lockControlsButton: ImageButton by lazy {
+        binding.playerView.findViewById(R.id.btn_lock_controls)
+    }
+    private val playbackSpeedButton: ImageButton by lazy {
+        binding.playerView.findViewById(R.id.btn_playback_speed)
+    }
+    private val playerLockControls: FrameLayout by lazy {
+        binding.playerView.findViewById(R.id.player_lock_controls)
+    }
+    private val playerUnlockControls: FrameLayout by lazy {
+        binding.playerView.findViewById(R.id.player_unlock_controls)
+    }
+    private val playerCenterControls: LinearLayout by lazy {
+        binding.playerView.findViewById(R.id.player_center_controls)
+    }
     private val screenRotateButton: ImageButton by lazy {
         binding.playerView.findViewById(R.id.screen_rotate)
     }
     private val pipButton: ImageButton by lazy {
         binding.playerView.findViewById(R.id.btn_pip)
     }
-    private lateinit var seekBar: TimeBar
-    private lateinit var subtitleTrackButton: ImageButton
-    private lateinit var unlockControlsButton: ImageButton
-    private lateinit var videoTitleTextView: TextView
-    private lateinit var videoZoomButton: ImageButton
-    private lateinit var playInBackgroundButton: ImageButton
-    private lateinit var extraControls: LinearLayout
+    private val seekBar: TimeBar by lazy {
+        binding.playerView.findViewById(R.id.exo_progress)
+    }
+    private val subtitleTrackButton: ImageButton by lazy {
+        binding.playerView.findViewById(R.id.btn_subtitle_track)
+    }
+    private val unlockControlsButton: ImageButton by lazy {
+        binding.playerView.findViewById(R.id.btn_unlock_controls)
+    }
+    private val videoTitleTextView: TextView by lazy {
+        binding.playerView.findViewById(R.id.video_name)
+    }
+    private val videoZoomButton: ImageButton by lazy {
+        binding.playerView.findViewById(R.id.btn_video_zoom)
+    }
+    private val playInBackgroundButton: ImageButton by lazy {
+        binding.playerView.findViewById(R.id.btn_background)
+    }
+    private val extraControls: LinearLayout by lazy {
+        binding.playerView.findViewById(R.id.extra_controls)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -216,20 +246,6 @@ class PlayerActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContentView(binding.root)
-
-        // Initializing views
-        lockControlsButton = binding.playerView.findViewById(R.id.btn_lock_controls)
-        playbackSpeedButton = binding.playerView.findViewById(R.id.btn_playback_speed)
-        playerLockControls = binding.playerView.findViewById(R.id.player_lock_controls)
-        playerUnlockControls = binding.playerView.findViewById(R.id.player_unlock_controls)
-        playerCenterControls = binding.playerView.findViewById(R.id.player_center_controls)
-        seekBar = binding.playerView.findViewById(R.id.exo_progress)
-        subtitleTrackButton = binding.playerView.findViewById(R.id.btn_subtitle_track)
-        unlockControlsButton = binding.playerView.findViewById(R.id.btn_unlock_controls)
-        videoTitleTextView = binding.playerView.findViewById(R.id.video_name)
-        videoZoomButton = binding.playerView.findViewById(R.id.btn_video_zoom)
-        playInBackgroundButton = binding.playerView.findViewById(R.id.btn_background)
-        extraControls = binding.playerView.findViewById(R.id.extra_controls)
 
         if (playerPreferences.controlButtonsPosition == ControlButtonsPosition.RIGHT) {
             extraControls.gravity = Gravity.END
@@ -276,9 +292,6 @@ class PlayerActivity : AppCompatActivity() {
             },
         )
 
-        volumeManager =
-            VolumeManager(audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager)
-        brightnessManager = BrightnessManager(activity = this)
         playerGestureHelper = PlayerGestureHelper(
             viewModel = viewModel,
             activity = this,
@@ -290,8 +303,6 @@ class PlayerActivity : AppCompatActivity() {
                 }
             },
         )
-
-        playerApi = PlayerApi(this)
 
         onBackPressedDispatcher.addCallback {
             mediaController?.run {
@@ -1085,7 +1096,7 @@ class PlayerActivity : AppCompatActivity() {
 
 @OptIn(UnstableApi::class)
 @RequiresApi(Build.VERSION_CODES.O)
-fun createPipAction(
+private fun createPipAction(
     context: Context,
     title: String,
     @DrawableRes icon: Int,
