@@ -15,6 +15,7 @@ class FolderAdapter(
     private val context: Context,
     folders: List<Folder>,
     private val preferences: ApplicationPreferences,
+    private val onFolderClick: (Folder) -> Unit,
 ) : BaseAdapterRecyclerView<Folder, ItemFolderBinding>() {
     init {
         setDataList(folders)
@@ -49,6 +50,10 @@ class FolderAdapter(
         }
         if (preferences.showSizeField) {
             binding.infoChipsContainer.addView(createChip(context, item.mediaSize.formatFileSize))
+        }
+
+        binding.root.setOnClickListener {
+            onFolderClick.invoke(item)
         }
     }
 

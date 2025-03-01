@@ -84,11 +84,19 @@ class VideosActivity : BaseActivity<ActivityVideosBinding>() {
         binding.folderRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.folderRecyclerView.adapter = FolderAdapter(
-            context = this@VideosActivity, preferences = applicationPreferences, folders = listOf(
+            context = this@VideosActivity,
+            preferences = applicationPreferences,
+            folders = listOf(
                 Folder.rootFolder,
                 Folder.sample,
                 Folder.sampleHaveData,
-            )
+            ),
+            onFolderClick = { folder ->
+                val intent = Intent(this, FolderListActivity::class.java).apply {
+                    putExtra("folder", folder)
+                }
+                startActivity(intent)
+            },
         )
 
         binding.permissionNotGrantedSub.text =

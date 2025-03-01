@@ -4,12 +4,17 @@
 
     <application>
         <activity
+            android:name=".FolderListActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.Base" />
+
+        <activity
             android:name=".VideosActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|uiMode|keyboard|keyboardHidden|navigation"
             android:exported="true"
             android:launchMode="singleTask"
             android:supportsPictureInPicture="true"
-            android:theme="@style/NextPlayer"
+            android:theme="@style/AppTheme.Base"
             tools:targetApi="o" />
     </application>
 </manifest>

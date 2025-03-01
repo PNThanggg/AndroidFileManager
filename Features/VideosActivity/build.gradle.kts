@@ -44,6 +44,8 @@ dependencies {
     implementation(libs.material)
 
     implementation(libs.hilt.android)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
     ksp(libs.hilt.compiler)
 
     implementation(libs.androidx.media3.common)
