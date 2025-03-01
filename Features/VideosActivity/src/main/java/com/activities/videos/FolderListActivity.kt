@@ -3,6 +3,7 @@ package com.activities.videos
 import android.view.LayoutInflater
 import com.activities.videos.databinding.ActivityFolderListBinding
 import com.module.core.base.BaseActivity
+import com.module.core.extensions.getDataSerializable
 import com.modules.core.model.Folder
 
 class FolderListActivity : BaseActivity<ActivityFolderListBinding>() {
@@ -11,7 +12,7 @@ class FolderListActivity : BaseActivity<ActivityFolderListBinding>() {
     }
 
     override fun initView() {
-        val folder = intent.getSerializableExtra("folder") as? Folder
+        val folder = intent.getDataSerializable("folder", Folder::class.java)
 
         if (folder != null) {
             binding.headerTitle.text = folder.name
