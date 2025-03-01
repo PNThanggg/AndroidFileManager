@@ -50,6 +50,11 @@ dependencies {
 
     implementation(libs.androidx.media3.common)
 
+    implementation(libs.coil.core)
+
+    implementation(libs.github.anilbeesetti.nextlib.media3ext)
+    implementation(libs.github.anilbeesetti.nextlib.mediainfo)
+
     implementation(project(":Core:Common"))
     implementation(project(":Core:Datastore"))
     implementation(project(":Core:Model"))

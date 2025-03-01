@@ -8,19 +8,23 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.activities.videos.adapter.FolderAdapter
 import com.activities.videos.adapter.ShortcutAdapter
+import com.activities.videos.adapter.VideoAdapter
 import com.activities.videos.databinding.ActivityVideosBinding
 import com.activities.videos.dialog.PermissionRationaleVideoDialog
+import com.activities.videos.extensions.loadLocalVideo
 import com.activities.videos.models.ShortcutItem
 import com.activities.videos.utils.Utils.storagePermission
 import com.module.core.base.BaseActivity
-import com.modules.core.model.Folder
+import com.modules.core.datastore.models.ApplicationPreferences
 import com.modules.feature.player.PlayerActivity
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 @UnstableApi
@@ -31,11 +35,7 @@ class VideosActivity : BaseActivity<ActivityVideosBinding>() {
     }
 
     private val viewModel: VideosViewModel by viewModels()
-    private val applicationPreferences get() = viewModel.preferences.value
-
-    companion object {
-        private const val TAG = "VideosActivity"
-    }
+    private val applicationPreferences: ApplicationPreferences get() = viewModel.preferences.value
 
     private val permissionRationaleVideoDialog by lazy {
         PermissionRationaleVideoDialog(this@VideosActivity)
@@ -74,34 +74,35 @@ class VideosActivity : BaseActivity<ActivityVideosBinding>() {
     }
 
     override fun initView() {
+        binding.permissionNotGrantedSub.text =
+            getString(R.string.permission_info, storagePermission)
+
         binding.shortcutRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.shortcutRecyclerView.adapter = ShortcutAdapter(listShortcut)
 
-        binding.folderRecyclerView.layoutManager =
+        binding.videoRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        binding.folderRecyclerView.adapter = FolderAdapter(
-            context = this@VideosActivity,
-            preferences = applicationPreferences,
-            folders = listOf(
-                Folder.rootFolder,
-                Folder.sample,
-                Folder.sampleHaveData,
-            ),
-            onFolderClick = { folder ->
-                val intent = Intent(this, FolderListActivity::class.java).apply {
-                    putExtra("folder", folder)
-                }
-                startActivity(intent)
-            },
-        )
-
-        binding.permissionNotGrantedSub.text =
-            getString(R.string.permission_info, storagePermission)
     }
 
     override fun initData() {
-
+        lifecycleScope.launch {
+            val videos = withContext(Dispatchers.IO) { loadLocalVideo() }
+            binding.videoRecyclerView.adapter = VideoAdapter(
+                context = this@VideosActivity,
+                list = videos,
+                applicationPreferences = applicationPreferences,
+                onClickListener = {
+                    val intent = Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(it.uriString),
+                        this@VideosActivity,
+                        PlayerActivity::class.java
+                    )
+                    startActivity(intent)
+                },
+            )
+        }
     }
 
     override fun initListener() {
