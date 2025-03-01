@@ -1,4 +1,4 @@
-package com.file.manager.activities.video
+package com.activities.videos
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

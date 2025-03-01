@@ -1,9 +1,9 @@
-package com.file.manager.activities.video.adapter
+package com.activities.videos.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.file.manager.activities.video.models.ShortcutItem
-import com.file.manager.databinding.ItemShortcutBinding
+import com.activities.videos.databinding.ItemShortcutBinding
+import com.activities.videos.models.ShortcutItem
 import com.module.core.base.BaseAdapterRecyclerView
 
 class ShortcutAdapter(

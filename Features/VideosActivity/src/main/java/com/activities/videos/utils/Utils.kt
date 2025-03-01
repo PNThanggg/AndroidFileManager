@@ -1,4 +1,4 @@
-package com.file.manager.utils
+package com.activities.videos.utils
 
 import android.Manifest
 import com.module.core.utils.isSdkR

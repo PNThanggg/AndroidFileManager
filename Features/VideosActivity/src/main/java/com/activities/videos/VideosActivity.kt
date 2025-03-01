@@ -1,4 +1,4 @@
-package com.file.manager.activities.video
+package com.activities.videos
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -10,13 +10,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.file.manager.R
-import com.file.manager.activities.video.adapter.FolderAdapter
-import com.file.manager.activities.video.adapter.ShortcutAdapter
-import com.file.manager.activities.video.dialog.PermissionRationaleVideoDialog
-import com.file.manager.activities.video.models.ShortcutItem
-import com.file.manager.databinding.ActivityVideosBinding
-import com.file.manager.utils.Utils.storagePermission
+import com.activities.videos.adapter.FolderAdapter
+import com.activities.videos.adapter.ShortcutAdapter
+import com.activities.videos.databinding.ActivityVideosBinding
+import com.activities.videos.dialog.PermissionRationaleVideoDialog
+import com.activities.videos.models.ShortcutItem
+import com.activities.videos.utils.Utils.storagePermission
 import com.module.core.base.BaseActivity
 import com.modules.core.model.Folder
 import com.modules.feature.player.PlayerActivity

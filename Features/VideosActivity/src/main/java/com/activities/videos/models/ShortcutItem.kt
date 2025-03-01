@@ -1,4 +1,4 @@
-package com.file.manager.activities.video.models
+package com.activities.videos.models
 
 data class ShortcutItem(
     val textResId: Int, val iconResId: Int, val onClick: () -> Unit,

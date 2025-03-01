@@ -1,22 +1,19 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.dagger.hilt)
 }
 
 android {
-    namespace = "com.file.manager"
+    namespace = "com.activities.videos"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.file.manager"
         minSdk = 24
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -38,7 +35,6 @@ android {
 
     buildFeatures {
         viewBinding = true
-        buildConfig = true
     }
 }
 
@@ -46,22 +42,19 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.recyclerview)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
-    implementation(libs.androidx.multidex)
-    implementation(libs.timber)
+    implementation(libs.androidx.media3.common)
 
     implementation(project(":Core:Common"))
     implementation(project(":Core:Datastore"))
     implementation(project(":Core:Model"))
 
     implementation(project(":Features:Player"))
-    implementation(project(":Features:VideosActivity"))
+
+    implementation(libs.timber)
 
     testImplementation(libs.junit)
 

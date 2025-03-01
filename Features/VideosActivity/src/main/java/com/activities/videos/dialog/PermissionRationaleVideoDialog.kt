@@ -1,13 +1,13 @@
-package com.file.manager.activities.video.dialog
+package com.activities.videos.dialog
 
 import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import com.file.manager.R
-import com.file.manager.databinding.DialogPermissionRationaleVideoBinding
-import com.file.manager.utils.Utils.storagePermission
+import com.activities.videos.R
+import com.activities.videos.databinding.DialogPermissionRationaleVideoBinding
+import com.activities.videos.utils.Utils.storagePermission
 import com.module.core.common.R as coreR
 
 class PermissionRationaleVideoDialog(
@@ -24,7 +24,7 @@ class PermissionRationaleVideoDialog(
     init {
         val width: Int = (context.resources.displayMetrics.widthPixels * 0.90).toInt()
         dialog.window?.apply {
-            setBackgroundDrawableResource(R.drawable.dialog_background)
+            setBackgroundDrawableResource(coreR.drawable.dialog_background)
             setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
             setGravity(Gravity.CENTER)
         }

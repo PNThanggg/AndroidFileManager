@@ -8,7 +8,7 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:padding="@dimen/_20sdp"
-    tools:context=".activities.video.VideosActivity">
+    tools:context=".VideosActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/shortcut_recycler_view"

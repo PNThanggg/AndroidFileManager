@@ -1,11 +1,11 @@
-package com.file.manager.activities.video.adapter
+package com.activities.videos.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
-import com.file.manager.R
-import com.file.manager.databinding.ItemFolderBinding
+import com.activities.videos.R
+import com.activities.videos.databinding.ItemFolderBinding
 import com.module.core.base.BaseAdapterRecyclerView
 import com.module.core.extensions.formatFileSize
 import com.modules.core.datastore.models.ApplicationPreferences
@@ -27,7 +27,7 @@ class FolderAdapter(
     override fun bindData(binding: ItemFolderBinding, item: Folder, position: Int) {
         binding.folderIcon.setImageResource(R.drawable.folder_thumb)
         binding.folderIcon.setColorFilter(
-            context.resources.getColor(R.color.splash, context.theme)
+            context.resources.getColor(R.color.folder_color, context.theme)
         )
 
         binding.folderName.text = item.name
