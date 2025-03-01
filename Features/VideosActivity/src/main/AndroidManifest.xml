@@ -4,11 +4,6 @@
 
     <application>
         <activity
-            android:name=".FolderListActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme.Base" />
-
-        <activity
             android:name=".VideosActivity"
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|uiMode|keyboard|keyboardHidden|navigation"
             android:exported="true"
