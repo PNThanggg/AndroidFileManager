@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="legacy_icon_background">#FFFFFF</color>
+
+    <color name="important_conversation">#f9ab00</color>
+</resources>

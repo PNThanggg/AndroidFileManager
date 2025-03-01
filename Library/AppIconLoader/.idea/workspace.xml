@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4fe867fa-ba40-4d81-9198-3753e2968845" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../Core/AppCoil/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Core/AppCoil/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Core/AppCoil/consumer-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Core/AppCoil/proguard-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Core/AppCoil/src/androidTest/java/com/modules/coil/ExampleInstrumentedTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Core/AppCoil/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Core/AppCoil/src/main/java/com/modules/coil/AppIconApplicationInfoFetcherFactory.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Core/AppCoil/src/main/java/com/modules/coil/AppIconFetcher.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Core/AppCoil/src/main/java/com/modules/coil/AppIconPackageNameFetcherFactory.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Core/AppCoil/src/main/java/com/modules/coil/CoilExtensions.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Core/AppCoil/src/main/java/com/modules/coil/CoilInitializer.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Core/AppCoil/src/main/java/com/modules/coil/CoilUtils.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Core/AppCoil/src/main/java/com/modules/coil/LoadRequestBuilderExtensions.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Core/AppCoil/src/main/java/com/modules/coil/PathAttributesFetcher.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Core/AppCoil/src/main/java/com/modules/coil/PdfPageFetcher.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Core/AppCoil/src/main/java/com/modules/coil/VideoFrameFetcher.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Core/AppCoil/src/main/res/values/dimens.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Core/AppCoil/src/test/java/com/modules/coil/ExampleUnitTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/consumer-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/proguard-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/androidTest/java/com/feature/file/ExampleInstrumentedTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/provider/common/ParcelableFileTime.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/provider/common/ParcelablePosixFileMode.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/provider/common/PosixGroup.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/provider/common/PosixUser.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/provider/remote/IRemoteFileService.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/provider/remote/IRemoteFileSystem.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/provider/remote/IRemoteFileSystemProvider.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/provider/remote/IRemoteInputStream.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/provider/remote/IRemotePathObservable.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/provider/remote/IRemotePosixFileAttributeView.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/provider/remote/IRemotePosixFileStore.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/provider/remote/IRemoteSeekableByteChannel.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/provider/remote/ParcelableCopyOptions.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/provider/remote/ParcelableDirectoryStream.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/provider/remote/ParcelableException.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/provider/remote/ParcelableFileAttributes.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/provider/remote/ParcelableObject.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/provider/remote/ParcelablePathListConsumer.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/provider/remote/ParcelableSerializable.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/provider/remote/RemoteInputStream.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/provider/remote/RemotePathObservable.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/provider/remote/RemoteSeekableByteChannel.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/utils/IRemoteCallback.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/utils/ParcelSlicedList.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/main/aidl/com/feature/file/utils/RemoteCallback.aidl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Features/Files/src/test/java/com/feature/file/ExampleUnitTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/consumer-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/proguard-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/androidTest/java/com/file/appiconloader/ExampleInstrumentedTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/library/icon_loader/AppIconLoader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/library/icon_loader/PackageInfoCompat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/library/icon_loader/PackageItemInfoCompat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/library/icon_loader/UserHandleCompat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/library/icon_loader/UserSerialNumberCache.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/file/appiconloader/ExampleUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AppIconLoaderLib/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AppIconLoaderLib/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AppIconLoaderLib/consumer-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AppIconLoaderLib/proguard-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AppIconLoaderLib/src/androidTest/java/com/file/appiconloaderlib/ExampleInstrumentedTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AppIconLoaderLib/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AppIconLoaderLib/src/main/res/drawable-v26/adaptive_icon_drawable_wrapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AppIconLoaderLib/src/main/res/drawable/ic_instant_app_badge.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AppIconLoaderLib/src/main/res/values/attrs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AppIconLoaderLib/src/main/res/values/colors.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AppIconLoaderLib/src/main/res/values/config.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AppIconLoaderLib/src/main/res/values/dimens.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AppIconLoaderLib/src/test/java/com/file/appiconloaderlib/ExampleUnitTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/../../gradle/libs.versions.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../../settings.gradle.kts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "PNThanggg"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/PNThanggg/AndroidFileManager.git",
+    "accountId": "839cf53f-8598-4f28-8aa5-204277d0facf"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="2tjPyAhY7sreLEw2hzi6m9JeprK" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "android.gradle.sync.needed": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/RealApp/FileManager/Library/AppIconLoader",
+    "show.migrate.to.gradle.popup": "false"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4fe867fa-ba40-4d81-9198-3753e2968845" name="Changes" comment="" />
+      <created>1740862762954</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1740862762954</updated>
+    </task>
+    <servers />
+  </component>
+</project>

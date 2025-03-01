@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="simple_cache_enable_im_memory">false</bool>
+    <string name="cache_db_name">app_icons.db</string>
+
+    <string name="calendar_component_name" />
+    <string name="clock_component_name" />
+
+</resources>
