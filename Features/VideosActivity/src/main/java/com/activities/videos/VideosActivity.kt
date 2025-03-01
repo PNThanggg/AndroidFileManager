@@ -53,9 +53,6 @@ class VideosActivity : BaseActivity<ActivityVideosBinding>() {
     private val selectVideoFileLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             uri?.let {
-                // Xử lý URI của tệp video được chọn
-                Timber.tag(TAG).d("Uri path: ${it.path}")
-
                 val intent = Intent(Intent.ACTION_VIEW, uri, this, PlayerActivity::class.java)
                 startActivity(intent)
             }
