@@ -11,6 +11,7 @@ import com.activities.videos.R
 import com.activities.videos.databinding.ItemVideoBinding
 import com.module.core.base.BaseAdapterRecyclerView
 import com.module.core.extensions.formatDurationMillis
+import com.module.core.extensions.formatFileSize
 import com.modules.core.datastore.models.ApplicationPreferences
 import com.modules.core.model.Video
 import kotlin.math.max
@@ -61,6 +62,20 @@ class VideoAdapter(
             error(R.drawable.artwork_default)
             val radiusPx = 8f * context.resources.displayMetrics.density
             transformations(RoundedCornersTransformation(radiusPx))
+        }
+
+        if (applicationPreferences.showSizeField) {
+            binding.sizeChip.text = item.size.formatFileSize
+            binding.sizeChip.visibility = View.VISIBLE
+        } else {
+            binding.sizeChip.visibility = View.GONE
+        }
+
+        if (applicationPreferences.showResolutionField && item.height > 0) {
+            binding.resolutionChip.text = context.getString(R.string.resolution, item.height)
+            binding.resolutionChip.visibility = View.VISIBLE
+        } else {
+            binding.resolutionChip.visibility = View.GONE
         }
     }
 }

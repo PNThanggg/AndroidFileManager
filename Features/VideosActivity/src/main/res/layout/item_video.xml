@@ -39,9 +39,11 @@
             android:layout_marginEnd="@dimen/_4sdp"
             android:layout_marginBottom="@dimen/_4sdp"
             android:background="@drawable/chip_background"
+            android:fontFamily="@font/space_grotesk_medium"
             android:paddingHorizontal="@dimen/_4sdp"
             android:paddingVertical="@dimen/_2sdp"
             android:text="00:00"
+            android:textColor="@color/black"
             android:textSize="@dimen/_10sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -59,6 +61,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/space_grotesk_bold"
             android:maxLines="2"
+            android:textColor="@color/black"
             android:textSize="16sp"
             tools:text="Avengers Endgame (2019) BluRay x264.mp4" />
 
@@ -69,8 +72,48 @@
             android:layout_marginTop="@dimen/_4sdp"
             android:fontFamily="@font/space_grotesk_regular"
             android:maxLines="1"
+            android:textColor="@color/black"
             android:textSize="12sp"
             tools:text="/storage/emulated/0/Download" />
-    </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/info_chips_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/size_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/chip_background"
+                android:fontFamily="@font/space_grotesk_medium"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="2dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10sdp"
+                android:visibility="gone"
+                tools:ignore="SpUsage"
+                tools:text="100 MB"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/resolution_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/chip_background"
+                android:fontFamily="@font/space_grotesk_medium"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="2dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10sdp"
+                android:visibility="gone"
+                tools:ignore="SpUsage"
+                tools:text="1080p"
+                tools:visibility="visible" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
