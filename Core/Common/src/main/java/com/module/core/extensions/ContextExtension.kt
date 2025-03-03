@@ -666,6 +666,54 @@ fun Context.getArtist(path: String): String? {
     }
 }
 
+/**
+ * Retrieves the title of a media file based on its path in the [Context].
+ *
+ * This extension function attempts to fetch the title of a media file specified by [path].
+ * It first queries the [MediaStore] using the provided path, either as a content URI or file path,
+ * to extract the title from [MediaColumns.TITLE]. If successful, it returns the title as a string.
+ * If the query fails (e.g., due to an invalid URI or exception), it falls back to using
+ * [MediaMetadataRetriever] to extract the title directly from the file's metadata. Returns null
+ * if both attempts fail.
+ *
+ * @param path The file path or content URI of the media file (e.g., audio or video).
+ * @return The title as a [String], or null if the title cannot be retrieved.
+ */
+fun Context.getTitle(path: String): String? {
+    val projection = arrayOf(
+        MediaColumns.TITLE
+    )
+
+    val uri = getFileUri(path)
+    val selection =
+        if (path.startsWith("content://")) "${BaseColumns._ID} = ?" else "${MediaColumns.DATA} = ?"
+    val selectionArgs =
+        if (path.startsWith("content://")) arrayOf(path.substringAfterLast("/")) else arrayOf(path)
+
+    try {
+        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
+        cursor?.use {
+            val titleColumn = it.getColumnIndexOrThrow(Audio.Media.TITLE)
+
+            if (cursor.moveToFirst()) {
+                return cursor.getString(titleColumn)
+            }
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+    return try {
+        val retriever = MediaMetadataRetriever()
+        retriever.setDataSource(path)
+        retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
+
+
 val Context.windowManager: WindowManager get() = getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
 val Context.isRTLLayout: Boolean get() = resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
