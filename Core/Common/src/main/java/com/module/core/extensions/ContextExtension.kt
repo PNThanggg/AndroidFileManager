@@ -7,6 +7,7 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.media.MediaMetadataRetriever
@@ -25,6 +26,7 @@ import android.provider.MediaStore.Images
 import android.provider.MediaStore.MediaColumns
 import android.provider.MediaStore.Video
 import android.provider.OpenableColumns
+import android.text.TextUtils
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
@@ -32,6 +34,10 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.text.isDigitsOnly
 import com.module.core.common.R
+import com.module.core.utils.BaseConfig
+import com.module.core.utils.PREFS_KEY
+import com.module.core.utils.SD_OTG_PATTERN
+import com.module.core.utils.SD_OTG_SHORT
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.mozilla.universalchardet.UniversalDetector
@@ -41,6 +47,9 @@ import java.io.InputStream
 import java.net.URL
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
+import java.util.Collections
+import java.util.Locale
+import java.util.regex.Pattern
 import kotlin.coroutines.suspendCoroutine
 
 val VIDEO_COLLECTION_URI: Uri
@@ -749,6 +758,138 @@ fun Context.getMediaStoreLastModified(path: String): Long {
     return 0
 }
 
+val Context.baseConfig: BaseConfig get() = BaseConfig.newInstance(this)
+
+// avoid these being set as SD card paths
+private val physicalPaths = arrayListOf(
+    "/storage/sdcard1", // Motorola Xoom
+    "/storage/extsdcard", // Samsung SGS3
+    "/storage/sdcard0/external_sdcard", // User request
+    "/mnt/extsdcard", "/mnt/sdcard/external_sd", // Samsung galaxy family
+    "/mnt/external_sd", "/mnt/media_rw/sdcard1", // 4.4.2 on CyanogenMod S3
+    "/removable/microsd", // Asus transformer prime
+    "/mnt/emmc", "/storage/external_SD", // LG
+    "/storage/ext_sd", // HTC One Max
+    "/storage/removable/sdcard1", // Sony Xperia Z1
+    "/data/sdext", "/data/sdext2", "/data/sdext3", "/data/sdext4", "/sdcard1", // Sony Xperia Z
+    "/sdcard2", // HTC One M8s
+    "/storage/usbdisk0", "/storage/usbdisk1", "/storage/usbdisk2"
+)
+
+fun Context.getInternalStoragePath() = if (File("/storage/emulated/0").exists()) {
+    "/storage/emulated/0"
+} else {
+    Environment.getExternalStorageDirectory().absolutePath.trimEnd(
+        '/'
+    )
+}
+
+/**
+ * Retrieves the path to the SD card storage in the [Context].
+ *
+ * This extension function attempts to determine the SD card path by filtering available storage
+ * directories obtained from [getStorageDirectories]. It excludes the internal storage path,
+ * emulated storage ("/storage/emulated/0"), and OTG partitions (if specified in [baseConfig]).
+ * The function prioritizes paths matching the full SD card pattern ([SD_OTG_PATTERN]) and falls back
+ * to other heuristics if no match is found, such as checking physical paths or known SD card locations
+ * (e.g., "/storage/sdcard1"). If all methods fail, it scans "/storage" for a short SD pattern
+ * ([SD_OTG_SHORT]). The final path is trimmed and stored in [baseConfig.sdCardPath].
+ *
+ * @return The absolute path to the SD card as a [String], or an empty string if no SD card path is found.
+ */
+fun Context.getSDCardPath(): String {
+    val directories = getStorageDirectories().filter {
+        it != getInternalStoragePath() && !it.equals(
+            "/storage/emulated/0", true
+        ) && (baseConfig.OTGPartition.isEmpty() || !it.endsWith(baseConfig.OTGPartition))
+    }
+
+    val fullSDpattern = Pattern.compile(SD_OTG_PATTERN)
+    var sdCardPath = directories.firstOrNull { fullSDpattern.matcher(it).matches() }
+        ?: directories.firstOrNull { !physicalPaths.contains(it.lowercase(Locale.getDefault())) }
+        ?: ""
+
+    // on some devices no method retrieved any SD card path, so test if its not sdcard1 by any chance. It happened on an Android 5.1
+    if (sdCardPath.trimEnd('/').isEmpty()) {
+        val file = File("/storage/sdcard1")
+        if (file.exists()) {
+            return file.absolutePath
+        }
+
+        sdCardPath = directories.firstOrNull() ?: ""
+    }
+
+    if (sdCardPath.isEmpty()) {
+        val sdPattern = Pattern.compile(SD_OTG_SHORT)
+        try {
+            File("/storage").listFiles()?.forEach {
+                if (sdPattern.matcher(it.name).matches()) {
+                    sdCardPath = "/storage/${it.name}"
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    val finalPath = sdCardPath.trimEnd('/')
+    baseConfig.sdCardPath = finalPath
+    return finalPath
+}
+
+/**
+ * Retrieves a list of storage directory paths available on the device in the [Context].
+ *
+ * This extension function collects storage paths from various sources, including environment variables
+ * (`EXTERNAL_STORAGE`, `SECONDARY_STORAGE`, `EMULATED_STORAGE_TARGET`) and external file directories.
+ * It handles both emulated and physical storage:
+ * - If [EMULATED_STORAGE_TARGET] is empty, it extracts paths from [getExternalFilesDirs] up to "Android/data".
+ * - If [EMULATED_STORAGE_TARGET] is present, it constructs paths considering user IDs (e.g., for multi-user devices).
+ * - Adds secondary storage paths from [SECONDARY_STORAGE] if available.
+ * The resulting paths are trimmed of trailing slashes and returned as an array.
+ *
+ * @return An array of [String] representing the absolute paths to storage directories on the device.
+ */
+fun Context.getStorageDirectories(): Array<String> {
+    val paths = HashSet<String>()
+    val rawExternalStorage = System.getenv("EXTERNAL_STORAGE")
+    val rawSecondaryStoragesStr = System.getenv("SECONDARY_STORAGE")
+    val rawEmulatedStorageTarget = System.getenv("EMULATED_STORAGE_TARGET")
+    if (TextUtils.isEmpty(rawEmulatedStorageTarget)) {
+        getExternalFilesDirs(null).filterNotNull().map { it.absolutePath }
+            .mapTo(paths) { it.substring(0, it.indexOf("Android/data")) }
+    } else {
+        val path = Environment.getExternalStorageDirectory().absolutePath
+        val folders = Pattern.compile("/").split(path)
+        val lastFolder = folders[folders.size - 1]
+        var isDigit = false
+        try {
+            Integer.valueOf(lastFolder)
+            isDigit = true
+        } catch (ignored: NumberFormatException) {
+        }
+
+        val rawUserId = if (isDigit) lastFolder else ""
+        if (TextUtils.isEmpty(rawUserId)) {
+            paths.add(rawEmulatedStorageTarget!!)
+        } else {
+            if (rawEmulatedStorageTarget != null) {
+                paths.add(rawEmulatedStorageTarget + File.separator + rawUserId)
+            }
+        }
+    }
+
+    if (!TextUtils.isEmpty(rawSecondaryStoragesStr)) {
+        val rawSecondaryStorages = rawSecondaryStoragesStr!!.split(File.pathSeparator.toRegex())
+            .dropLastWhile(String::isEmpty).toTypedArray()
+        Collections.addAll(paths, *rawSecondaryStorages)
+    }
+    return paths.map { it.trimEnd('/') }.toTypedArray()
+}
+
+
+fun Context.getSharedPrefs(): SharedPreferences =
+    getSharedPreferences(PREFS_KEY, Context.MODE_PRIVATE)
 
 val Context.windowManager: WindowManager get() = getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
