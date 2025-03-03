@@ -1,5 +1,8 @@
 package com.module.core.extensions
 
+import android.content.Context
+import android.text.format.DateFormat
+import java.util.Calendar
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 import kotlin.math.abs
@@ -66,3 +69,13 @@ val Long.formatBitrate: String?
             else -> String.format(Locale.ROOT, "%d bps", this)
         }
     }
+
+fun Long.formatDate(
+    context: Context, dateFormat: String? = null, timeFormat: String? = null
+): String {
+    val useDateFormat = dateFormat ?: "dd-MM-yyyy"
+    val useTimeFormat = timeFormat ?: "HH:mm"
+    val cal = Calendar.getInstance(Locale.ENGLISH)
+    cal.timeInMillis = this
+    return DateFormat.format("$useDateFormat, $useTimeFormat", cal).toString()
+}
