@@ -71,7 +71,7 @@ val Long.formatBitrate: String?
     }
 
 fun Long.formatDate(
-    context: Context, dateFormat: String? = null, timeFormat: String? = null
+    dateFormat: String? = null, timeFormat: String? = null
 ): String {
     val useDateFormat = dateFormat ?: "dd-MM-yyyy"
     val useTimeFormat = timeFormat ?: "HH:mm"
