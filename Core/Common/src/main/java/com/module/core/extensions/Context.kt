@@ -17,6 +17,8 @@ import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
 import android.util.TypedValue
+import android.view.View
+import android.view.WindowManager
 import androidx.core.text.isDigitsOnly
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -411,3 +413,7 @@ fun Context.getStorageVolumes() = try {
 } catch (e: Exception) {
     listOf(Environment.getExternalStorageDirectory())
 }
+
+val Context.windowManager: WindowManager get() = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+
+val Context.isRTLLayout: Boolean get() = resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
