@@ -89,7 +89,7 @@ fun Activity.showKeyboard(et: EditText) {
     imm.showSoftInput(et, InputMethodManager.SHOW_IMPLICIT)
 }
 
-private fun isOnMainThread() = Looper.myLooper() == Looper.getMainLooper()
+fun isOnMainThread() = Looper.myLooper() == Looper.getMainLooper()
 
 /**
  * Hides the soft keyboard synchronously for the specified [Activity] and clears focus from the current view.
