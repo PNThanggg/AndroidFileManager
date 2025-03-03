@@ -16,3 +16,8 @@ fun Int.adjustAlpha(factor: Float): Int {
     val blue = Color.blue(this)
     return Color.argb(alpha, red, green, blue)
 }
+
+fun Int.addBit(bit: Int) = this or bit
+
+// TODO: how to do "bits & ~bit" in kotlin?
+fun Int.removeBit(bit: Int) = addBit(bit) - bit
