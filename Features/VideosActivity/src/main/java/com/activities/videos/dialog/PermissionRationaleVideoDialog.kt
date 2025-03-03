@@ -8,7 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import com.activities.videos.R
 import com.activities.videos.databinding.DialogPermissionRationaleVideoBinding
 import com.activities.videos.utils.Utils.storagePermission
-import com.module.core.common.R as coreR
+import com.modules.core.ui.R as coreR
 
 class PermissionRationaleVideoDialog(
     private val context: Context,
@@ -18,13 +18,13 @@ class PermissionRationaleVideoDialog(
     }
 
     private val dialog: AlertDialog by lazy {
-        AlertDialog.Builder(context, coreR.style.ActivityDialog).setView(binding.root).create()
+        AlertDialog.Builder(context, coreR.style.MyDialogTheme).setView(binding.root).create()
     }
 
     init {
         val width: Int = (context.resources.displayMetrics.widthPixels * 0.90).toInt()
         dialog.window?.apply {
-            setBackgroundDrawableResource(coreR.drawable.dialog_background)
+            setBackgroundDrawableResource(coreR.drawable.dialog_you_background)
             setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
             setGravity(Gravity.CENTER)
         }

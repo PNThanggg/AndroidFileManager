@@ -44,6 +44,7 @@ dependencies {
     implementation(project(":Core:Datastore"))
     implementation(project(":Core:Data"))
     implementation(project(":Core:Domain"))
+    implementation(project(":Core:UI"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

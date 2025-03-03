@@ -59,6 +59,7 @@ dependencies {
     implementation(project(":Core:Common"))
     implementation(project(":Core:Datastore"))
     implementation(project(":Core:Model"))
+    implementation(project(":Core:UI"))
 
     implementation(project(":Features:Player"))
     implementation(project(":Features:VideosActivity"))
