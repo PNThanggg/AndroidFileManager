@@ -45,10 +45,15 @@ dependencies {
 
     implementation(libs.androidx.recyclerview)
 
+    implementation(libs.glide)
+    ksp(libs.glide.compiler)
+
     implementation(libs.github.albfernandez.juniversalchardet)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    implementation(libs.joda.time)
 
     testImplementation(libs.junit)
 
