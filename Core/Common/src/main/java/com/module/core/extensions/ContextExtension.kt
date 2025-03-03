@@ -9,14 +9,21 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.media.MediaMetadataRetriever
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
+import android.provider.BaseColumns
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.provider.MediaStore.Audio
+import android.provider.MediaStore.Files
+import android.provider.MediaStore.Images
+import android.provider.MediaStore.MediaColumns
+import android.provider.MediaStore.Video
 import android.provider.OpenableColumns
 import android.util.Log
 import android.util.TypedValue
@@ -24,7 +31,6 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.text.isDigitsOnly
-import androidx.documentfile.provider.DocumentFile
 import com.module.core.common.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -39,9 +45,9 @@ import kotlin.coroutines.suspendCoroutine
 
 val VIDEO_COLLECTION_URI: Uri
     get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        MediaStore.Video.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
+        Video.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
     } else {
-        MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+        Video.Media.EXTERNAL_CONTENT_URI
     }
 
 
@@ -121,9 +127,9 @@ fun Context.getPath(uri: Uri): String? {
                 val type = split[0]
                 var contentUri: Uri? = null
                 when (type) {
-                    "image" -> contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                    "video" -> contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-                    "audio" -> contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                    "image" -> contentUri = Images.Media.EXTERNAL_CONTENT_URI
+                    "video" -> contentUri = Video.Media.EXTERNAL_CONTENT_URI
+                    "audio" -> contentUri = Audio.Media.EXTERNAL_CONTENT_URI
                 }
                 val selection = "_id=?"
                 val selectionArgs = arrayOf(
@@ -159,7 +165,7 @@ private fun Context.getDataColumn(
     selection: String? = null,
     selectionArgs: Array<String>? = null,
 ): String? {
-    val column = MediaStore.Images.Media.DATA
+    val column = Images.Media.DATA
     val projection = arrayOf(column)
     try {
         contentResolver.query(uri, projection, selection, selectionArgs, null)?.use { cursor ->
@@ -210,16 +216,28 @@ fun Context.getFilenameFromContentUri(uri: Uri): String? {
     return null
 }
 
+/**
+ * Retrieves the content URI for a media file based on the provided URI in the [Context].
+ *
+ * This extension function attempts to resolve a [Uri] to a media content URI from the [MediaStore].
+ * It first extracts the file path from the input [Uri] using [getPath]. Then, it queries the
+ * [MediaStore.Video.Media] collection to find a matching entry based on the file path. If found,
+ * it constructs and returns a content URI using the media item's ID. If the path cannot be resolved,
+ * no matching media is found, or an error occurs, it returns null.
+ *
+ * @param uri The input [Uri] representing the media file to query.
+ * @return A [Uri] representing the content URI of the media file in [MediaStore], or null if not found or an error occurs.
+ */
 fun Context.getMediaContentUri(uri: Uri): Uri? {
     val path = getPath(uri) ?: return null
 
-    val column = MediaStore.Video.Media._ID
+    val column = Video.Media._ID
     val projection = arrayOf(column)
     try {
         contentResolver.query(
             VIDEO_COLLECTION_URI,
             projection,
-            "${MediaStore.Images.Media.DATA} = ?",
+            "${Images.Media.DATA} = ?",
             arrayOf(path),
             null,
         )?.use { cursor ->
@@ -250,6 +268,18 @@ suspend fun Context.scanPaths(paths: List<String>): Boolean = suspendCoroutine {
     }
 }
 
+/**
+ * Recursively scans a file or directory path to update the media store in the [Context].
+ *
+ * This suspendable extension function checks if the provided [File] is a directory or a single file.
+ * If it is a directory, it recursively scans all files within it by calling itself on each sub-file,
+ * returning true only if all scans succeed. If it is a single file, it delegates to [scanPaths]
+ * to perform the media scan for the file's path. The operation is designed to ensure media files
+ * are indexed in the media store.
+ *
+ * @param file The [File] object representing the file or directory to scan.
+ * @return A [Boolean] indicating whether the scan was successful (true) for all files, or false if any scan fails.
+ */
 suspend fun Context.scanPath(file: File): Boolean {
     return if (file.isDirectory) {
         file.listFiles()?.all { scanPath(it) } ?: true
@@ -258,6 +288,18 @@ suspend fun Context.scanPath(file: File): Boolean {
     }
 }
 
+/**
+ * Scans the storage at the specified path to update the media store in the [Context].
+ *
+ * This suspendable extension function runs on the [Dispatchers.IO] coroutine context to perform
+ * a media scan of the provided storage path. By default, it uses the external storage directory
+ * path if no [storagePath] is specified. On Android Q (API 29) and above, it delegates to [scanPaths]
+ * for a single path scan. On older versions, it uses [scanPath] to recursively scan the storage
+ * directory. Returns false if the storage path is null or scanning fails.
+ *
+ * @param storagePath The path to scan, defaults to the external storage directory path if null.
+ * @return A [Boolean] indicating whether the scan was successful (true) or not (false).
+ */
 suspend fun Context.scanStorage(
     storagePath: String? = Environment.getExternalStorageDirectory()?.path,
 ): Boolean = withContext(Dispatchers.IO) {
@@ -455,6 +497,173 @@ fun Context.getStorageVolumes() = try {
     } ?: listOf(Environment.getExternalStorageDirectory())
 } catch (e: Exception) {
     listOf(Environment.getExternalStorageDirectory())
+}
+
+fun Context.getSizeFromContentUri(uri: Uri): Long {
+    val projection = arrayOf(OpenableColumns.SIZE)
+    try {
+        val cursor = contentResolver.query(uri, projection, null, null, null)
+        cursor?.use {
+            val sizeColumn = it.getColumnIndexOrThrow(OpenableColumns.SIZE)
+
+            if (cursor.moveToFirst()) {
+                return cursor.getLong(sizeColumn)
+            }
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return 0L
+}
+
+fun Context.getFileUri(path: String): Uri = when {
+    path.isImageSlow() -> Images.Media.EXTERNAL_CONTENT_URI
+    path.isVideoSlow() -> Video.Media.EXTERNAL_CONTENT_URI
+    path.isAudioSlow() -> Audio.Media.EXTERNAL_CONTENT_URI
+    else -> Files.getContentUri("external")
+}
+
+/**
+ * Retrieves the album name of an audio file based on its path in the [Context].
+ *
+ * This extension function attempts to fetch the album name of an audio file specified by [path].
+ * It first queries the [MediaStore] using the provided path, either as a content URI or file path,
+ * to extract the album name from [Audio.Media.ALBUM]. If successful, it returns the album name as a
+ * string. If the query fails (e.g., due to an invalid URI or exception), it falls back to using
+ * [MediaMetadataRetriever] to extract the album name directly from the file's metadata. Returns null
+ * if both attempts fail.
+ *
+ * @param path The file path or content URI of the audio file.
+ * @return The album name as a [String], or null if the album name cannot be retrieved.
+ */
+fun Context.getAlbum(path: String): String? {
+    val projection = arrayOf(
+        Audio.Media.ALBUM
+    )
+
+    val uri = getFileUri(path)
+    val selection =
+        if (path.startsWith("content://")) "${BaseColumns._ID} = ?" else "${MediaColumns.DATA} = ?"
+    val selectionArgs =
+        if (path.startsWith("content://")) arrayOf(path.substringAfterLast("/")) else arrayOf(path)
+
+    try {
+        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
+        cursor?.use {
+            val albumColumn = it.getColumnIndexOrThrow(Audio.Media.ALBUM)
+
+            if (cursor.moveToFirst()) {
+                return cursor.getString(albumColumn)
+            }
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+    return try {
+        val retriever = MediaMetadataRetriever()
+        retriever.setDataSource(path)
+        retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
+
+/**
+ * Retrieves the duration of a media file in seconds based on its path in the [Context].
+ *
+ * This extension function attempts to fetch the duration of a media file specified by [path].
+ * It first tries to query the [MediaStore] using the provided path, either as a content URI or file path,
+ * to extract the duration from [MediaColumns.DURATION]. If successful, it converts the duration from
+ * milliseconds to seconds. If the query fails (e.g., due to an invalid URI or exception), it falls back
+ * to using [MediaMetadataRetriever] to extract the duration from the file directly. Returns null if
+ * both attempts fail.
+ *
+ * @param path The file path or content URI of the media file (e.g., a video or audio file).
+ * @return The duration of the media file in seconds as an [Int], or null if the duration cannot be retrieved.
+ */
+fun Context.getDuration(path: String): Int? {
+    val projection = arrayOf(
+        MediaColumns.DURATION
+    )
+
+    val uri = getFileUri(path)
+    val selection =
+        if (path.startsWith("content://")) "${BaseColumns._ID} = ?" else "${MediaColumns.DATA} = ?"
+    val selectionArgs =
+        if (path.startsWith("content://")) arrayOf(path.substringAfterLast("/")) else arrayOf(path)
+
+    try {
+        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
+        cursor?.use {
+            val durationColumn = it.getColumnIndexOrThrow(MediaColumns.DURATION)
+
+            if (cursor.moveToFirst()) {
+                return Math.round(cursor.getInt(durationColumn) / 1000.toDouble()).toInt()
+            }
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+    return try {
+        val retriever = MediaMetadataRetriever()
+        retriever.setDataSource(path)
+        Math.round(
+            retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)!!
+                .toInt() / 1000f
+        )
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
+
+/**
+ * Retrieves the artist name of an audio file based on its path in the [Context].
+ *
+ * This extension function attempts to fetch the artist name of an audio file specified by [path].
+ * It first queries the [MediaStore] using the provided path, either as a content URI or file path,
+ * to extract the artist name from [Audio.Media.ARTIST]. If successful, it returns the artist name as a
+ * string. If the query fails (e.g., due to an invalid URI or exception), it falls back to using
+ * [MediaMetadataRetriever] to extract the artist name directly from the file's metadata. Returns null
+ * if both attempts fail.
+ *
+ * @param path The file path or content URI of the audio file.
+ * @return The artist name as a [String], or null if the artist name cannot be retrieved.
+ */
+fun Context.getArtist(path: String): String? {
+    val projection = arrayOf(
+        Audio.Media.ARTIST
+    )
+
+    val uri = getFileUri(path)
+    val selection =
+        if (path.startsWith("content://")) "${BaseColumns._ID} = ?" else "${MediaColumns.DATA} = ?"
+    val selectionArgs =
+        if (path.startsWith("content://")) arrayOf(path.substringAfterLast("/")) else arrayOf(path)
+
+    try {
+        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
+        cursor?.use {
+            val artistColumn = it.getColumnIndexOrThrow(Audio.Media.ARTIST)
+            if (cursor.moveToFirst()) {
+                return cursor.getString(artistColumn)
+            }
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+    return try {
+        val retriever = MediaMetadataRetriever()
+        retriever.setDataSource(path)
+        retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
 }
 
 val Context.windowManager: WindowManager get() = getSystemService(Context.WINDOW_SERVICE) as WindowManager
