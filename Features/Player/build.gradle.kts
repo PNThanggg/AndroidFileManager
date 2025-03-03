@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.github.anilbeesetti.nextlib.media3ext)
     implementation(libs.github.anilbeesetti.nextlib.mediainfo)
 
+    implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.guava)
 
