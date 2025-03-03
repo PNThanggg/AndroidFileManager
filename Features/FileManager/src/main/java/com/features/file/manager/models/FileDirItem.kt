@@ -17,6 +17,7 @@ import com.module.core.extensions.getAlbum
 import com.module.core.extensions.getArtist
 import com.module.core.extensions.getDuration
 import com.module.core.extensions.getFormattedDuration
+import com.module.core.extensions.getMediaStoreLastModified
 import com.module.core.extensions.getParentPath
 import com.module.core.extensions.getSizeFromContentUri
 import com.module.core.extensions.getTitle
@@ -88,12 +89,12 @@ open class FileDirItem(
 
     private fun getExtension() = if (isDirectory) name else path.substringAfterLast('.', "")
 
-    fun getBubbleText(context: Context, dateFormat: String? = null, timeFormat: String? = null) =
+    fun getBubbleText(dateFormat: String? = null, timeFormat: String? = null) =
         when {
             sorting and SORT_BY_SIZE != 0 -> size.formatFileSize
 
             sorting and SORT_BY_DATE_MODIFIED != 0 -> modified.formatDate(
-                context, dateFormat, timeFormat
+                dateFormat = dateFormat, timeFormat = timeFormat,
             )
 
             sorting and SORT_BY_EXTENSION != 0 -> getExtension().lowercase()

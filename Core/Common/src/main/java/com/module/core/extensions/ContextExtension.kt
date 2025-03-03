@@ -713,6 +713,42 @@ fun Context.getTitle(path: String): String? {
     }
 }
 
+/**
+ * Retrieves the last modified timestamp of a media file from the [MediaStore] in the [Context].
+ *
+ * This extension function queries the [MediaStore] to fetch the last modified date of a media file
+ * specified by [path], using [MediaColumns.DATE_MODIFIED]. The path is assumed to be a content URI,
+ * and the function extracts the ID from the URI to perform the query. The returned value is the
+ * timestamp in milliseconds (converted from seconds). If the query fails or no data is found,
+ * it returns 0.
+ *
+ * @param path The content URI of the media file.
+ * @return The last modified timestamp in milliseconds as a [Long], or 0 if the timestamp cannot be retrieved.
+ */
+fun Context.getMediaStoreLastModified(path: String): Long {
+    val projection = arrayOf(
+        MediaColumns.DATE_MODIFIED
+    )
+
+    val uri = getFileUri(path)
+    val selection = "${BaseColumns._ID} = ?"
+    val selectionArgs = arrayOf(path.substringAfterLast("/"))
+
+    try {
+        val cursor = contentResolver.query(uri, projection, selection, selectionArgs, null)
+        cursor?.use {
+            val dateColumn = it.getColumnIndexOrThrow(MediaColumns.DATE_MODIFIED)
+
+            if (cursor.moveToFirst()) {
+                return cursor.getLong(dateColumn) * 1000
+            }
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return 0
+}
+
 
 val Context.windowManager: WindowManager get() = getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
