@@ -50,6 +50,8 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.recyclerview)
 
+    implementation(libs.androidx.media3.common)
+
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
