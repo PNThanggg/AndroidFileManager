@@ -2,9 +2,12 @@ package com.module.core.extensions
 
 import android.app.Activity
 import android.app.Activity.OVERRIDE_TRANSITION_CLOSE
+import android.content.Context
 import android.graphics.Color
 import android.util.DisplayMetrics
 import android.view.WindowInsets
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import com.module.core.common.R
@@ -68,4 +71,10 @@ fun ComponentActivity.handleBackPressed(action: () -> Unit) {
             }
         },
     )
+}
+
+fun Activity.showKeyboard(et: EditText) {
+    et.requestFocus()
+    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.showSoftInput(et, InputMethodManager.SHOW_IMPLICIT)
 }
