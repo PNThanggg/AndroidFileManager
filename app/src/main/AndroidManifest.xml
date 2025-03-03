@@ -32,9 +32,6 @@
             android:name=".MusicActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.video.VideosActivity"
-            android:exported="false" />
-        <activity
             android:name=".ImagesActivity"
             android:exported="false" />
         <activity
