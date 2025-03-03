@@ -42,6 +42,7 @@ dependencies {
 
     implementation(libs.timber)
 
+    implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
 
     // Hilt
