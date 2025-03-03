@@ -1,1 +1,4 @@
-<resources></resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="rooted_device_only">This operation works only on rooted devices</string>
+</resources>
