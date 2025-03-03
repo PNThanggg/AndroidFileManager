@@ -4,8 +4,12 @@ import android.app.Activity
 import android.app.Activity.OVERRIDE_TRANSITION_CLOSE
 import android.content.Context
 import android.graphics.Color
+import android.os.Handler
+import android.os.Looper
 import android.util.DisplayMetrics
+import android.view.View
 import android.view.WindowInsets
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.activity.ComponentActivity
@@ -77,4 +81,23 @@ fun Activity.showKeyboard(et: EditText) {
     et.requestFocus()
     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.showSoftInput(et, InputMethodManager.SHOW_IMPLICIT)
+}
+
+fun isOnMainThread() = Looper.myLooper() == Looper.getMainLooper()
+
+fun Activity.hideKeyboardSync() {
+    val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow((currentFocus ?: View(this)).windowToken, 0)
+    window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
+    currentFocus?.clearFocus()
+}
+
+fun Activity.hideKeyboard() {
+    if (isOnMainThread()) {
+        hideKeyboardSync()
+    } else {
+        Handler(Looper.getMainLooper()).post {
+            hideKeyboardSync()
+        }
+    }
 }
