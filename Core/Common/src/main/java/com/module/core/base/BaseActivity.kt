@@ -59,7 +59,6 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         }
     }
 
-
     open fun onBack() {
         if (supportFragmentManager.backStackEntryCount > 0) {
             onBackPressedDispatcher.onBackPressed()
@@ -74,7 +73,6 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     abstract fun initView()
     abstract fun initData()
     abstract fun initListener()
-
 
     private fun delayClick() {
         launchCoroutineIO {
