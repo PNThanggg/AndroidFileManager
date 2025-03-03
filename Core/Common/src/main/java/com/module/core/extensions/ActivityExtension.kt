@@ -66,17 +66,6 @@ fun Activity.finishWithSlide() {
     }
 }
 
-fun ComponentActivity.handleBackPressed(action: () -> Unit) {
-    onBackPressedDispatcher.addCallback(
-        this,
-        object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                action()
-            }
-        },
-    )
-}
-
 fun Activity.showKeyboard(et: EditText) {
     et.requestFocus()
     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
