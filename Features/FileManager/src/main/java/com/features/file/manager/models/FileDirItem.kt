@@ -17,9 +17,7 @@ import com.module.core.extensions.getAlbum
 import com.module.core.extensions.getArtist
 import com.module.core.extensions.getDuration
 import com.module.core.extensions.getFormattedDuration
-import com.module.core.extensions.getMediaStoreLastModified
 import com.module.core.extensions.getParentPath
-import com.module.core.extensions.getSizeFromContentUri
 import com.module.core.extensions.getTitle
 import com.module.core.extensions.isImageFast
 import com.module.core.extensions.isVideoFast
@@ -28,12 +26,12 @@ import java.io.File
 
 open class FileDirItem(
     val path: String,
-    val name: String = "",
+    private val name: String = "",
     var isDirectory: Boolean = false,
     var children: Int = 0,
     var size: Long = 0L,
-    var modified: Long = 0L,
-    var mediaStoreId: Long = 0L
+    private var modified: Long = 0L,
+    private var mediaStoreId: Long = 0L
 ) : Comparable<FileDirItem> {
     companion object {
         var sorting = 0
@@ -89,76 +87,75 @@ open class FileDirItem(
 
     private fun getExtension() = if (isDirectory) name else path.substringAfterLast('.', "")
 
-    fun getBubbleText(dateFormat: String? = null, timeFormat: String? = null) =
-        when {
-            sorting and SORT_BY_SIZE != 0 -> size.formatFileSize
+    fun getBubbleText(dateFormat: String? = null, timeFormat: String? = null) = when {
+        sorting and SORT_BY_SIZE != 0 -> size.formatFileSize
 
-            sorting and SORT_BY_DATE_MODIFIED != 0 -> modified.formatDate(
-                dateFormat = dateFormat, timeFormat = timeFormat,
-            )
+        sorting and SORT_BY_DATE_MODIFIED != 0 -> modified.formatDate(
+            dateFormat = dateFormat, timeFormat = timeFormat,
+        )
 
-            sorting and SORT_BY_EXTENSION != 0 -> getExtension().lowercase()
+        sorting and SORT_BY_EXTENSION != 0 -> getExtension().lowercase()
 
-            else -> name
-        }
-
-    fun getProperSize(context: Context, countHidden: Boolean): Long {
-        return when {
-            context.isRestrictedSAFOnlyRoot(path) -> context.getAndroidSAFFileSize(path)
-            context.isPathOnOTG(path) -> context.getDocumentFile(path)?.getItemSize(countHidden)
-                ?: 0
-
-            path.startsWith("content://") -> {
-                val uri = Uri.parse(path)
-
-                try {
-                    context.contentResolver.openInputStream(uri)?.available()?.toLong() ?: 0L
-                } catch (e: Exception) {
-                    context.getSizeFromContentUri(uri)
-                }
-            }
-
-            else -> File(path).getProperSize(countHidden)
-        }
+        else -> name
     }
 
-    fun getProperFileCount(context: Context, countHidden: Boolean): Int {
-        return when {
-            context.isRestrictedSAFOnlyRoot(path) -> context.getAndroidSAFFileCount(
-                path, countHidden
-            )
+//    fun getProperSize(context: Context, countHidden: Boolean): Long {
+//        return when {
+//            context.isRestrictedSAFOnlyRoot(path) -> context.getAndroidSAFFileSize(path)
+//            context.isPathOnOTG(path) -> context.getDocumentFile(path)?.getItemSize(countHidden)
+//                ?: 0
+//
+//            path.startsWith("content://") -> {
+//                val uri = Uri.parse(path)
+//
+//                try {
+//                    context.contentResolver.openInputStream(uri)?.available()?.toLong() ?: 0L
+//                } catch (e: Exception) {
+//                    context.getSizeFromContentUri(uri)
+//                }
+//            }
+//
+//            else -> File(path).getProperSize(countHidden)
+//        }
+//    }
 
-            context.isPathOnOTG(path) -> context.getDocumentFile(path)?.getFileCount(countHidden)
-                ?: 0
+//    fun getProperFileCount(context: Context, countHidden: Boolean): Int {
+//        return when {
+//            context.isRestrictedSAFOnlyRoot(path) -> context.getAndroidSAFFileCount(
+//                path, countHidden
+//            )
+//
+//            context.isPathOnOTG(path) -> context.getDocumentFile(path)?.getFileCount(countHidden)
+//                ?: 0
+//
+//            else -> File(path).getFileCount(countHidden)
+//        }
+//    }
 
-            else -> File(path).getFileCount(countHidden)
-        }
-    }
+//    fun getDirectChildrenCount(context: Context, countHiddenItems: Boolean): Int {
+//        return when {
+//            context.isRestrictedSAFOnlyRoot(path) -> context.getAndroidSAFDirectChildrenCount(
+//                path, countHiddenItems
+//            )
+//
+//            context.isPathOnOTG(path) -> context.getDocumentFile(path)?.listFiles()
+//                ?.filter { if (countHiddenItems) true else !it.name!!.startsWith(".") }?.size ?: 0
+//
+//            else -> File(path).getDirectChildrenCount(context, countHiddenItems)
+//        }
+//    }
 
-    fun getDirectChildrenCount(context: Context, countHiddenItems: Boolean): Int {
-        return when {
-            context.isRestrictedSAFOnlyRoot(path) -> context.getAndroidSAFDirectChildrenCount(
-                path, countHiddenItems
-            )
-
-            context.isPathOnOTG(path) -> context.getDocumentFile(path)?.listFiles()
-                ?.filter { if (countHiddenItems) true else !it.name!!.startsWith(".") }?.size ?: 0
-
-            else -> File(path).getDirectChildrenCount(context, countHiddenItems)
-        }
-    }
-
-    fun getLastModified(context: Context): Long {
-        return when {
-            context.isRestrictedSAFOnlyRoot(path) -> context.getAndroidSAFLastModified(path)
-            context.isPathOnOTG(path) -> context.getFastDocumentFile(path)?.lastModified() ?: 0L
-            path.startsWith("content://") -> context.getMediaStoreLastModified(
-                path
-            )
-
-            else -> File(path).lastModified()
-        }
-    }
+//    fun getLastModified(context: Context): Long {
+//        return when {
+//            context.isRestrictedSAFOnlyRoot(path) -> context.getAndroidSAFLastModified(path)
+//            context.isPathOnOTG(path) -> context.getFastDocumentFile(path)?.lastModified() ?: 0L
+//            path.startsWith("content://") -> context.getMediaStoreLastModified(
+//                path
+//            )
+//
+//            else -> File(path).lastModified()
+//        }
+//    }
 
     fun getParentPath() = path.getParentPath()
 
@@ -172,13 +169,13 @@ open class FileDirItem(
 
     fun getTitle(context: Context) = context.getTitle(path)
 
-    fun getResolution(context: Context) = context.getResolution(path)
-
-    fun getVideoResolution(context: Context) = context.getVideoResolution(path)
-
-    fun getImageResolution(context: Context) = context.getImageResolution(path)
-
-    fun getPublicUri(context: Context) = context.getDocumentFile(path)?.uri ?: ""
+//    fun getResolution(context: Context) = context.getResolution(path)
+//
+//    fun getVideoResolution(context: Context) = context.getVideoResolution(path)
+//
+//    fun getImageResolution(context: Context) = context.getImageResolution(path)
+//
+//    fun getPublicUri(context: Context) = context.getDocumentFile(path)?.uri ?: ""
 
     fun getSignature(): String {
         val lastModified = if (modified > 1) {
