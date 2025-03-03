@@ -1,11 +1,11 @@
-package com.file.manager
+package com.project
 
 import android.content.Intent
 import android.view.LayoutInflater
 import androidx.annotation.OptIn
 import androidx.media3.common.util.UnstableApi
 import com.activities.videos.VideosActivity
-import com.file.manager.databinding.ActivityHomeBinding
+import com.project.databinding.ActivityHomeBinding
 import com.module.core.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 

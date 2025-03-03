@@ -1,9 +1,9 @@
-package com.file.manager
+package com.project
 
 import android.content.Intent
 import android.view.LayoutInflater
 import androidx.lifecycle.lifecycleScope
-import com.file.manager.databinding.ActivitySplashBinding
+import com.project.databinding.ActivitySplashBinding
 import com.module.core.base.BaseActivity
 import com.modules.core.datastore.repository.LocalPreferencesRepository
 import dagger.hilt.android.AndroidEntryPoint

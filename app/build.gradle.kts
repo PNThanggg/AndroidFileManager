@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.file.manager"
+    namespace = "com.project"
     compileSdk = 35
 
     defaultConfig {
