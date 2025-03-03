@@ -894,3 +894,33 @@ fun Context.getSharedPrefs(): SharedPreferences =
 val Context.windowManager: WindowManager get() = getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
 val Context.isRTLLayout: Boolean get() = resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
+
+val Context.otgPath: String get() = baseConfig.OTGPath
+
+fun Context.isPathOnOTG(path: String) = otgPath.isNotEmpty() && path.startsWith(otgPath)
+
+val Context.sdCardPath: String get() = baseConfig.sdCardPath
+
+fun Context.isPathOnSD(path: String) = sdCardPath.isNotEmpty() && path.startsWith(sdCardPath)
+
+val Context.internalStoragePath: String get() = baseConfig.internalStoragePath
+
+fun Context.humanizePath(path: String): String {
+    val trimmedPath = path.trimEnd('/')
+    val basePath = path.getBasePath(this)
+    return when (basePath) {
+        "/" -> "${getHumanReadablePath(basePath)}$trimmedPath"
+        else -> trimmedPath.replaceFirst(basePath, getHumanReadablePath(basePath))
+    }
+}
+
+fun Context.getHumanReadablePath(path: String): String {
+    return getString(
+        when (path) {
+            "/" -> R.string.root
+            internalStoragePath -> R.string.internal
+            otgPath -> R.string.usb
+            else -> R.string.sd_card
+        }
+    )
+}
