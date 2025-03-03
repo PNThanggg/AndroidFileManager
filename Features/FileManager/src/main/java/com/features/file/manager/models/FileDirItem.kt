@@ -8,12 +8,17 @@ import com.features.file.manager.utils.AlphanumericComparator
 import com.module.core.extensions.formatDate
 import com.module.core.extensions.formatFileSize
 import com.module.core.extensions.getAlbum
+import com.module.core.extensions.getAndroidSAFDirectChildrenCount
 import com.module.core.extensions.getArtist
+import com.module.core.extensions.getDirectChildrenCount
+import com.module.core.extensions.getDocumentFile
 import com.module.core.extensions.getDuration
 import com.module.core.extensions.getFormattedDuration
 import com.module.core.extensions.getParentPath
 import com.module.core.extensions.getTitle
 import com.module.core.extensions.isImageFast
+import com.module.core.extensions.isPathOnOTG
+import com.module.core.extensions.isRestrictedSAFOnlyRoot
 import com.module.core.extensions.isVideoFast
 import com.module.core.extensions.normalizeString
 import com.module.core.utils.SORT_BY_DATE_MODIFIED
@@ -30,7 +35,7 @@ open class FileDirItem(
     var isDirectory: Boolean = false,
     var children: Int = 0,
     var size: Long = 0L,
-    private var modified: Long = 0L,
+    var modified: Long = 0L,
     private var mediaStoreId: Long = 0L
 ) : Comparable<FileDirItem> {
     companion object {
@@ -132,18 +137,18 @@ open class FileDirItem(
 //        }
 //    }
 
-//    fun getDirectChildrenCount(context: Context, countHiddenItems: Boolean): Int {
-//        return when {
-//            context.isRestrictedSAFOnlyRoot(path) -> context.getAndroidSAFDirectChildrenCount(
-//                path, countHiddenItems
-//            )
-//
-//            context.isPathOnOTG(path) -> context.getDocumentFile(path)?.listFiles()
-//                ?.filter { if (countHiddenItems) true else !it.name!!.startsWith(".") }?.size ?: 0
-//
-//            else -> File(path).getDirectChildrenCount(context, countHiddenItems)
-//        }
-//    }
+    fun getDirectChildrenCount(context: Context, countHiddenItems: Boolean): Int {
+        return when {
+            context.isRestrictedSAFOnlyRoot(path) -> context.getAndroidSAFDirectChildrenCount(
+                path, countHiddenItems
+            )
+
+            context.isPathOnOTG(path) -> context.getDocumentFile(path)?.listFiles()
+                ?.filter { if (countHiddenItems) true else !it.name!!.startsWith(".") }?.size ?: 0
+
+            else -> File(path).getDirectChildrenCount(context, countHiddenItems)
+        }
+    }
 
 //    fun getLastModified(context: Context): Long {
 //        return when {
