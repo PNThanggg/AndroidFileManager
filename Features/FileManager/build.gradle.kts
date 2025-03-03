@@ -43,11 +43,13 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.swiperefreshlayout)
 
     implementation(libs.glide)
     ksp(libs.glide.compiler)
 
     implementation(project(":Core:Common"))
+    implementation(project(":Core:UI"))
     implementation(project(":Library:RootTools"))
     implementation(project(":Library:RootShell"))
 
