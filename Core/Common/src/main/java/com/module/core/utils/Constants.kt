@@ -130,3 +130,33 @@ const val PASSWORD_COUNTDOWN_START_MS = "password_count_down_start_ms"
 
 const val SD_OTG_PATTERN = "^/storage/[A-Za-z0-9]{4}-[A-Za-z0-9]{4}$"
 const val SD_OTG_SHORT = "^[A-Za-z0-9]{4}-[A-Za-z0-9]{4}$"
+
+// view types
+const val VIEW_TYPE_GRID = 1
+const val VIEW_TYPE_LIST = 2
+const val VIEW_TYPE_UNEVEN_GRID = 3
+
+// sorting
+const val SORT_ORDER = "sort_order"
+
+// storing folder specific values at using "Use for this folder only"
+const val SORT_FOLDER_PREFIX = "sort_folder_"
+const val SORT_BY_NAME = 1
+const val SORT_BY_DATE_MODIFIED = 2
+const val SORT_BY_SIZE = 4
+const val SORT_BY_DATE_TAKEN = 8
+const val SORT_BY_EXTENSION = 16
+const val SORT_BY_PATH = 32
+const val SORT_BY_NUMBER = 64
+const val SORT_BY_FIRST_NAME = 128
+const val SORT_BY_MIDDLE_NAME = 256
+const val SORT_BY_SURNAME = 512
+const val SORT_DESCENDING = 1024
+const val SORT_BY_TITLE = 2048
+const val SORT_BY_ARTIST = 4096
+const val SORT_BY_DURATION = 8192
+const val SORT_BY_RANDOM = 16384
+const val SORT_USE_NUMERIC_VALUE = 32768
+const val SORT_BY_FULL_NAME = 65536
+const val SORT_BY_CUSTOM = 131072
+const val SORT_BY_DATE_CREATED = 262144

@@ -1,24 +1,16 @@
 package com.features.file.manager.utils
 
-// sorting
-const val SORT_ORDER = "sort_order"
-const val SORT_FOLDER_PREFIX = "sort_folder_"       // storing folder specific values at using "Use for this folder only"
-const val SORT_BY_NAME = 1
-const val SORT_BY_DATE_MODIFIED = 2
-const val SORT_BY_SIZE = 4
-const val SORT_BY_DATE_TAKEN = 8
-const val SORT_BY_EXTENSION = 16
-const val SORT_BY_PATH = 32
-const val SORT_BY_NUMBER = 64
-const val SORT_BY_FIRST_NAME = 128
-const val SORT_BY_MIDDLE_NAME = 256
-const val SORT_BY_SURNAME = 512
-const val SORT_DESCENDING = 1024
-const val SORT_BY_TITLE = 2048
-const val SORT_BY_ARTIST = 4096
-const val SORT_BY_DURATION = 8192
-const val SORT_BY_RANDOM = 16384
-const val SORT_USE_NUMERIC_VALUE = 32768
-const val SORT_BY_FULL_NAME = 65536
-const val SORT_BY_CUSTOM = 131072
-const val SORT_BY_DATE_CREATED = 262144
+// shared preferences
+const val SHOW_HIDDEN = "show_hidden"
+const val PRESS_BACK_TWICE = "press_back_twice"
+const val HOME_FOLDER = "home_folder"
+const val TEMPORARILY_SHOW_HIDDEN = "temporarily_show_hidden"
+const val IS_ROOT_AVAILABLE = "is_root_available"
+const val ENABLE_ROOT_ACCESS = "enable_root_access"
+const val EDITOR_TEXT_ZOOM = "editor_text_zoom"
+const val VIEW_TYPE_PREFIX = "view_type_folder_"
+const val FILE_COLUMN_CNT = "file_column_cnt"
+const val FILE_LANDSCAPE_COLUMN_CNT = "file_landscape_column_cnt"
+const val DISPLAY_FILE_NAMES = "display_file_names"
+const val SHOW_TABS = "show_tabs"
+const val WAS_STORAGE_ANALYSIS_TAB_ADDED = "was_storage_analysis_tab_added"
