@@ -43,10 +43,20 @@ class RootHelpers(val activity: Activity) {
             val command = object : Command(0, cmd) {
                 override fun commandOutput(id: Int, line: String) {
                     val file = File(path, line)
-                    val fullLine = fullLines.firstOrNull { it.endsWith(" $line") }
+                    val fullLine = fullLines.firstOrNull { inLine ->
+                        inLine.endsWith(" $line")
+                    }
                     val isDirectory = fullLine?.startsWith('d') ?: file.isDirectory
-                    val fileDirItem =
-                        ListItem(file.absolutePath, line, isDirectory, 0, 0, 0, false, false)
+                    val fileDirItem = ListItem(
+                        file.absolutePath,
+                        line,
+                        isDirectory,
+                        0,
+                        0,
+                        0,
+                        isSectionTitle = false,
+                        isGridTypeDivider = false
+                    )
                     files.add(fileDirItem)
                     super.commandOutput(id, line)
                 }
