@@ -1,5 +1,6 @@
 package com.module.core.extensions
 
+import android.app.Activity
 import android.app.UiModeManager
 import android.content.ContentResolver
 import android.content.ContentUris
@@ -12,6 +13,8 @@ import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.os.Handler
+import android.os.Looper
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
@@ -19,7 +22,10 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.core.text.isDigitsOnly
+import androidx.documentfile.provider.DocumentFile
+import com.module.core.common.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.mozilla.universalchardet.UniversalDetector
@@ -37,6 +43,43 @@ val VIDEO_COLLECTION_URI: Uri
     } else {
         MediaStore.Video.Media.EXTERNAL_CONTENT_URI
     }
+
+
+fun Context.toast(id: Int, length: Int = Toast.LENGTH_SHORT) {
+    toast(getString(id), length)
+}
+
+fun Context.toast(msg: String, length: Int = Toast.LENGTH_SHORT) {
+    try {
+        if (isOnMainThread()) {
+            doToast(this, msg, length)
+        } else {
+            Handler(Looper.getMainLooper()).post {
+                doToast(this, msg, length)
+            }
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+private fun doToast(context: Context, message: String, length: Int) {
+    if (context is Activity) {
+        if (!context.isFinishing && !context.isDestroyed) {
+            Toast.makeText(context, message, length).show()
+        }
+    } else {
+        Toast.makeText(context, message, length).show()
+    }
+}
+
+fun Context.showErrorToast(msg: String, length: Int = Toast.LENGTH_LONG) {
+    toast(String.format(getString(R.string.error), msg), length)
+}
+
+fun Context.showErrorToast(exception: Exception, length: Int = Toast.LENGTH_LONG) {
+    showErrorToast(exception.toString(), length)
+}
 
 /**
  * get path from uri
