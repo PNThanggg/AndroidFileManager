@@ -13,6 +13,9 @@
     <dimen name="settings_label_start_margin">22dp</dimen>
     <dimen name="min_radio_checkbox_height">44dp</dimen>
 
+    <dimen name="default_handle_padding">4dp</dimen>
+    <dimen name="default_handle_size">18dp</dimen>
+
     <dimen name="material_dialog_corner_radius">28dp</dimen>
     <dimen name="material_button_corner_radius">24dp</dimen>
     <dimen name="social_logo">40dp</dimen>

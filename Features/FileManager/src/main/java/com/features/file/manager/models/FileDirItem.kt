@@ -26,7 +26,7 @@ import java.io.File
 
 open class FileDirItem(
     val path: String,
-    private val name: String = "",
+    val name: String = "",
     var isDirectory: Boolean = false,
     var children: Int = 0,
     var size: Long = 0L,

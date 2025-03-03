@@ -13,6 +13,13 @@ class FileManagerActivity : BaseActivity<ActivityFileManagerBinding>() {
         return ActivityFileManagerBinding.inflate(inflater)
     }
 
+    companion object {
+        private const val BACK_PRESS_TIMEOUT = 5000
+        private const val MANAGE_STORAGE_RC = 201
+        private const val PICKED_PATH = "picked_path"
+    }
+
+
     override fun initView() {}
 
     override fun initData() {}
