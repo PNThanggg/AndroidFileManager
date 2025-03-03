@@ -580,7 +580,7 @@ fun Context.getAlbum(path: String): String? {
  * to using [MediaMetadataRetriever] to extract the duration from the file directly. Returns null if
  * both attempts fail.
  *
- * @param path The file path or content URI of the media file (e.g., a video or audio file).
+ * @param path The file path or content URI of the media file.
  * @return The duration of the media file in seconds as an [Int], or null if the duration cannot be retrieved.
  */
 fun Context.getDuration(path: String): Int? {
@@ -676,7 +676,7 @@ fun Context.getArtist(path: String): String? {
  * [MediaMetadataRetriever] to extract the title directly from the file's metadata. Returns null
  * if both attempts fail.
  *
- * @param path The file path or content URI of the media file (e.g., audio or video).
+ * @param path The file path or content URI of the media file.
  * @return The title as a [String], or null if the title cannot be retrieved.
  */
 fun Context.getTitle(path: String): String? {
