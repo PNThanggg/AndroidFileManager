@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -43,7 +44,12 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
+    implementation(libs.glide)
+    ksp(libs.glide.compiler)
+
     implementation(project(":Core:Common"))
+    implementation(project(":Library:RootTools"))
+    implementation(project(":Library:RootShell"))
 
     testImplementation(libs.junit)
 
