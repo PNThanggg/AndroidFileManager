@@ -134,13 +134,13 @@ fun String.highlightTextPart(
         return spannableString
     }
 
-    var startIndex = normalizeString().indexOf(textToHighlight, 0, true)
+    var startIndex = normalizeString.indexOf(textToHighlight, 0, true)
     val indexes = ArrayList<Int>()
     while (startIndex >= 0) {
         indexes.add(startIndex)
 
         startIndex =
-            normalizeString().indexOf(textToHighlight, startIndex + textToHighlight.length, true)
+            normalizeString.indexOf(textToHighlight, startIndex + textToHighlight.length, true)
         if (!highlightAll) {
             break
         }
@@ -151,7 +151,7 @@ fun String.highlightTextPart(
         try {
             val regex = TextUtils.join("(\\D*)", textToHighlight.toCharArray().toTypedArray())
             val pattern = Pattern.compile(regex)
-            val result = pattern.matcher(normalizeString())
+            val result = pattern.matcher(normalizeString)
             if (result.find()) {
                 spannableString.setSpan(
                     ForegroundColorSpan(color),
@@ -225,8 +225,10 @@ fun String.getAvailableStorageB(): Long {
 val normalizeRegex = "\\p{InCombiningDiacriticalMarks}+".toRegex()
 
 // remove diacritics, for example č -> c
-fun String.normalizeString() =
-    Normalizer.normalize(this, Normalizer.Form.NFD).replace(normalizeRegex, "")
+val String.normalizeString: String
+    get() {
+        return Normalizer.normalize(this, Normalizer.Form.NFD).replace(normalizeRegex, "")
+    }
 
 // checks if string is a phone number
 fun String.isPhoneNumber(): Boolean {
@@ -239,14 +241,14 @@ fun String.trimToComparableNumber(): String {
     if (!this.isPhoneNumber()) {
         return this
     }
-    val normalizedNumber = this.normalizeString()
+    val normalizedNumber = this.normalizeString
     val startIndex = 0.coerceAtLeast(normalizedNumber.length - 9)
     return normalizedNumber.substring(startIndex)
 }
 
 // get the contact names first letter at showing the placeholder without image
 fun String.getNameLetter() =
-    normalizeString().toCharArray().getOrNull(0)?.toString()?.uppercase(Locale.getDefault()) ?: "A"
+    normalizeString.toCharArray().getOrNull(0)?.toString()?.uppercase(Locale.getDefault()) ?: "A"
 
 fun String.normalizePhoneNumber() = PhoneNumberUtils.normalizeNumber(this)
 
