@@ -40,6 +40,7 @@ dependencies {
     implementation(project(":Core:Model"))
     implementation(project(":Core:Datastore"))
 
+    implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
 
     // Hilt
