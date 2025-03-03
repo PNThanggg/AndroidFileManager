@@ -390,7 +390,7 @@ public final class Shell {
         return command;
     }
 
-    public final void useCWD(Context context) {
+    public void useCWD(Context context) {
         add(new Command(-1, false, "cd " + context.getApplicationInfo().dataDir));
     }
 
@@ -455,7 +455,7 @@ public final class Shell {
         }
     }
 
-    public static void closeCustomShell() throws IOException {
+    public static void closeCustomShell() {
         RootShell.log("Request to close custom shell!");
 
         if (Shell.customShell == null) {
@@ -474,7 +474,7 @@ public final class Shell {
         Shell.rootShell.close();
     }
 
-    public static void closeShell() throws IOException {
+    public static void closeShell() {
         RootShell.log("Request to close normal shell!");
 
         if (Shell.shell == null) {
