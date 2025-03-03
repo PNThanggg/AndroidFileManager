@@ -45,6 +45,8 @@ dependencies {
 
     implementation(libs.androidx.recyclerview)
 
+    implementation(libs.kotlinx.coroutines.core)
+
     implementation(libs.glide)
     ksp(libs.glide.compiler)
 
