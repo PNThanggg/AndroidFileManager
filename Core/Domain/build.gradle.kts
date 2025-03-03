@@ -35,7 +35,6 @@ android {
 }
 
 dependencies {
-
     implementation(project(":Core:Data"))
     implementation(project(":Core:Common"))
     implementation(project(":Core:Model"))
@@ -46,9 +45,4 @@ dependencies {
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-
-    testImplementation(libs.junit)
-
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 }
