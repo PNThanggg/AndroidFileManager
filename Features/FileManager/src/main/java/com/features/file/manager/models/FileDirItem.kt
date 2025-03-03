@@ -5,12 +5,6 @@ import android.net.Uri
 import android.provider.MediaStore
 import com.bumptech.glide.signature.ObjectKey
 import com.features.file.manager.utils.AlphanumericComparator
-import com.features.file.manager.utils.SORT_BY_DATE_MODIFIED
-import com.features.file.manager.utils.SORT_BY_EXTENSION
-import com.features.file.manager.utils.SORT_BY_NAME
-import com.features.file.manager.utils.SORT_BY_SIZE
-import com.features.file.manager.utils.SORT_DESCENDING
-import com.features.file.manager.utils.SORT_USE_NUMERIC_VALUE
 import com.module.core.extensions.formatDate
 import com.module.core.extensions.formatFileSize
 import com.module.core.extensions.getAlbum
@@ -22,6 +16,12 @@ import com.module.core.extensions.getTitle
 import com.module.core.extensions.isImageFast
 import com.module.core.extensions.isVideoFast
 import com.module.core.extensions.normalizeString
+import com.module.core.utils.SORT_BY_DATE_MODIFIED
+import com.module.core.utils.SORT_BY_EXTENSION
+import com.module.core.utils.SORT_BY_NAME
+import com.module.core.utils.SORT_BY_SIZE
+import com.module.core.utils.SORT_DESCENDING
+import com.module.core.utils.SORT_USE_NUMERIC_VALUE
 import java.io.File
 
 open class FileDirItem(
