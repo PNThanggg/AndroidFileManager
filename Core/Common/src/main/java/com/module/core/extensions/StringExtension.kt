@@ -1,5 +1,6 @@
 package com.module.core.extensions
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.os.StatFs
 import android.provider.MediaStore
@@ -26,6 +27,16 @@ import java.util.regex.Pattern
 fun String.getFilenameFromPath() = substring(lastIndexOf("/") + 1)
 
 fun String.getFilenameExtension() = substring(lastIndexOf(".") + 1)
+
+
+fun String.getBasePath(context: Context): String {
+    return when {
+        startsWith(context.internalStoragePath) -> context.internalStoragePath
+        context.isPathOnSD(this) -> context.sdCardPath
+        context.isPathOnOTG(this) -> context.otgPath
+        else -> "/"
+    }
+}
 
 fun String.isAValidFilename(): Boolean {
     val ILLEGAL_CHARACTERS =
