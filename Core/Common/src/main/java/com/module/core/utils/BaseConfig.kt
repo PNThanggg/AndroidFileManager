@@ -82,7 +82,7 @@ open class BaseConfig(val context: Context) {
             .putString(INTERNAL_STORAGE_PATH, internalStoragePath).apply()
 
     private fun getDefaultInternalPath() =
-        if (prefs.contains(INTERNAL_STORAGE_PATH)) "" else context.getInternalStoragePath()
+        if (prefs.contains(INTERNAL_STORAGE_PATH)) "" else getInternalStoragePath()
 
 
     var lastHandledShortcutColor: Int

@@ -783,7 +783,7 @@ private val physicalPaths = arrayListOf(
     "/storage/usbdisk0", "/storage/usbdisk1", "/storage/usbdisk2"
 )
 
-fun Context.getInternalStoragePath() = if (File("/storage/emulated/0").exists()) {
+fun getInternalStoragePath() = if (File("/storage/emulated/0").exists()) {
     "/storage/emulated/0"
 } else {
     Environment.getExternalStorageDirectory().absolutePath.trimEnd(

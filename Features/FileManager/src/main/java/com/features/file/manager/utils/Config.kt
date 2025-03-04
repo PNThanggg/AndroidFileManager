@@ -30,7 +30,7 @@ class Config(context: Context) : BaseConfig(context) {
         get(): String {
             var path = prefs.getString(HOME_FOLDER, "")!!
             if (path.isEmpty() || !File(path).isDirectory) {
-                path = context.getInternalStoragePath()
+                path = getInternalStoragePath()
                 homeFolder = path
             }
             return path

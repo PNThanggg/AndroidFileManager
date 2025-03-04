@@ -67,23 +67,12 @@ class FileManagerActivity : BaseActivity<ActivityFileManagerBinding>(),
     override fun initView() {
         binding.breadcrumbs.listener = this
 
-        binding.itemsSwipeRefresh.setOnRefreshListener { refreshFragment() }
+//        binding.itemsSwipeRefresh.setOnRefreshListener { refreshFragment() }
     }
 
     override fun initData() {}
 
     override fun initListener() {}
-
-    private fun checkIfRootAvailable() {
-        ensureBackgroundThread {
-            config.isRootAvailable = RootTools.isRootAvailable()
-            if (config.isRootAvailable && config.enableRootAccess) {
-                RootHelpers(this).askRootIfNeeded {
-                    config.enableRootAccess = it
-                }
-            }
-        }
-    }
 
     fun openPath(path: String, forceRefresh: Boolean = false) {
         var realPath = path.trimEnd('/')
