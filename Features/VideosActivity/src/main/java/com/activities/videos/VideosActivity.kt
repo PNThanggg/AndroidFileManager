@@ -15,16 +15,16 @@ import com.activities.videos.adapter.ShortcutAdapter
 import com.activities.videos.adapter.VideoAdapter
 import com.activities.videos.databinding.ActivityVideosBinding
 import com.activities.videos.dialog.PermissionRationaleVideoDialog
-import com.activities.videos.extensions.loadLocalVideo
 import com.activities.videos.models.ShortcutItem
 import com.activities.videos.utils.Utils.storagePermission
 import com.module.core.base.BaseActivity
+import com.module.core.enums.LoadingState
+import com.module.core.extensions.showErrorToast
 import com.modules.core.datastore.models.ApplicationPreferences
 import com.modules.feature.player.PlayerActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 @UnstableApi
@@ -83,26 +83,52 @@ class VideosActivity : BaseActivity<ActivityVideosBinding>() {
 
         binding.videoRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
+        lifecycleScope.launch {
+            viewModel.uiState.collectLatest { state ->
+                when (state.loadingState) {
+                    LoadingState.Loading -> {
+                        binding.videoRecyclerView.visibility = View.GONE
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+
+                    LoadingState.Success -> {
+                        binding.videoRecyclerView.visibility = View.VISIBLE
+                        binding.progressBar.visibility = View.GONE
+
+                        binding.videoRecyclerView.adapter = VideoAdapter(
+                            context = this@VideosActivity,
+                            list = state.videos,
+                            applicationPreferences = applicationPreferences,
+                            onClickListener = { item ->
+                                val intent = Intent(
+                                    Intent.ACTION_VIEW,
+                                    Uri.parse(item.uriString),
+                                    this@VideosActivity,
+                                    PlayerActivity::class.java
+                                )
+                                startActivity(intent)
+                            },
+                        )
+                    }
+
+                    is LoadingState.Error -> {
+                        binding.videoRecyclerView.visibility = View.GONE
+                        binding.progressBar.visibility = View.GONE
+                        showErrorToast(state.loadingState.message ?: "")
+                    }
+
+                    else -> {
+                        binding.videoRecyclerView.visibility = View.GONE
+                        binding.progressBar.visibility = View.GONE
+                    }
+                }
+            }
+        }
     }
 
     override fun initData() {
-        lifecycleScope.launch {
-            val videos = withContext(Dispatchers.IO) { loadLocalVideo() }
-            binding.videoRecyclerView.adapter = VideoAdapter(
-                context = this@VideosActivity,
-                list = videos,
-                applicationPreferences = applicationPreferences,
-                onClickListener = {
-                    val intent = Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse(it.uriString),
-                        this@VideosActivity,
-                        PlayerActivity::class.java
-                    )
-                    startActivity(intent)
-                },
-            )
-        }
+
     }
 
     override fun initListener() {
@@ -118,6 +144,7 @@ class VideosActivity : BaseActivity<ActivityVideosBinding>() {
         when {
             checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED -> {
                 binding.permissionNotGrantedLayout.visibility = View.GONE
+                viewModel.loadListView()
             }
 
             shouldShowRequestPermissionRationale(permission) -> {
